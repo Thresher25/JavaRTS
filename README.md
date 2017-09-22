@@ -1,2 +1,2 @@
 # JavaRTS
-My Gr12 CPT which hopefully be something along the lines of a cut-down Starcraft/Red Alert RTS style game
+A basic RTS game in Java I am making for my Grade 12 CPT
