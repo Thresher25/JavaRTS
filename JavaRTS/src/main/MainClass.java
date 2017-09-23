@@ -8,22 +8,24 @@ public class MainClass extends JPanel {
 
     public static final int SCREENWIDTH = 1920;
     public static final int SCREENHEIGHT = 1080;
+    public JFrame frame;
 
     public MainClass() {
         this.setSize(SCREENWIDTH, SCREENHEIGHT);
         this.setVisible(true);
         this.setDoubleBuffered(true);
 
-        JFrame frame = new JFrame("JavaRTS");
+        frame = new JFrame("JavaRTS");
         frame.setSize(SCREENWIDTH, SCREENHEIGHT);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
         frame.add(this);
-        frame.repaint();
+
     }
 
     public static void main(String[] args){
         MainClass mc = new MainClass();
+        mc.frame.repaint();
     }
 
     @Override
