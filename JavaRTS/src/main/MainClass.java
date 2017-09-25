@@ -24,18 +24,18 @@ public class MainClass extends JPanel {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
         frame.add(this);
-
     }
 
     public static void main(String[] args){
         MainClass mc = new MainClass();
         double previousTime = System.currentTimeMillis();
+        // mc.frame.repaint();
         double currentTime = System.currentTimeMillis();
         double deltaTime = 0;
-        double maxDelta = 1 / 60;
-        double minDelta = 1 / 120;
+        double maxDelta = 1000 / 30;
+        double minDelta = 1000 / 120;
         while (!mc.quit) {
-           /* currentTime = System.currentTimeMillis();
+            currentTime = System.currentTimeMillis();
             deltaTime = currentTime - previousTime;
             previousTime = System.currentTimeMillis();
             while (deltaTime < minDelta) {
@@ -45,12 +45,12 @@ public class MainClass extends JPanel {
             if (deltaTime <= maxDelta) {
                 mc.update(deltaTime);
             } else if (deltaTime > maxDelta) {
-                int div = (int) deltaTime / (int) maxDelta;
+                long div = Math.round(deltaTime / maxDelta) + 1;
+                System.out.println(div);
                 for (int i = 0; i < div; i++) {
                     mc.update(deltaTime / (double) div);
                 }
             }
-           */
             mc.frame.repaint();
         }
 
@@ -66,8 +66,10 @@ public class MainClass extends JPanel {
         g.clearRect(0, 0, SCREENWIDTH, SCREENHEIGHT);
         g.setColor(Color.MAGENTA);
         g.fillRect(0, 0, SCREENWIDTH, SCREENHEIGHT);
-        for (int i = 0; i < Tile.bufArray.length; i++) {
-            g.drawImage(Tile.bufArray[i], i * 32, 0, null);
+        for (int i = 0; i < Math.sqrt(Tile.bufArray.length); i++) {
+            for (int j = 0; j < Math.sqrt(Tile.bufArray.length); j++) {
+                g.drawImage(Tile.bufArray[i * 16 + j], j * 32, i * 32, null);
+            }
         }
     }
 
