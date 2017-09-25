@@ -1,6 +1,8 @@
 package main;
 
 
+import Tiles.Tile;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -10,6 +12,7 @@ public class MainClass extends JPanel {
     public static final int SCREENHEIGHT = 1080;
     boolean quit = false;
     public JFrame frame;
+    public Tile til = new Tile();
 
     public MainClass() {
         this.setSize(SCREENWIDTH, SCREENHEIGHT);
@@ -32,7 +35,7 @@ public class MainClass extends JPanel {
         double maxDelta = 1 / 60;
         double minDelta = 1 / 120;
         while (!mc.quit) {
-            currentTime = System.currentTimeMillis();
+           /* currentTime = System.currentTimeMillis();
             deltaTime = currentTime - previousTime;
             previousTime = System.currentTimeMillis();
             while (deltaTime < minDelta) {
@@ -47,6 +50,7 @@ public class MainClass extends JPanel {
                     mc.update(deltaTime / (double) div);
                 }
             }
+           */
             mc.frame.repaint();
         }
 
@@ -62,6 +66,9 @@ public class MainClass extends JPanel {
         g.clearRect(0, 0, SCREENWIDTH, SCREENHEIGHT);
         g.setColor(Color.MAGENTA);
         g.fillRect(0, 0, SCREENWIDTH, SCREENHEIGHT);
+        for (int i = 0; i < Tile.bufArray.length; i++) {
+            g.drawImage(Tile.bufArray[i], i * 32, 0, null);
+        }
     }
 
 
