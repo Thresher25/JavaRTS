@@ -3,6 +3,7 @@ package main;
 
 import Tiles.Grass;
 import Tiles.Tile;
+import Tiles.Water;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,7 +15,7 @@ public class MainClass extends JPanel {
     boolean quit = false;
     public JFrame frame;
     public Grass til = new Grass(600, 600, 0, 5);
-    public Grass til1 = new Grass(632, 600, 0, 5);
+    public Water til1 = new Water(632, 600, 0);
     public Grass til2 = new Grass(664, 600, 0, 5);
 
     public MainClass() {
