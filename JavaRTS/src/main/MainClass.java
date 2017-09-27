@@ -1,6 +1,7 @@
 package main;
 
 
+import Tiles.Grass;
 import Tiles.Tile;
 
 import javax.swing.*;
@@ -12,7 +13,9 @@ public class MainClass extends JPanel {
     public static final int SCREENHEIGHT = 1080;
     boolean quit = false;
     public JFrame frame;
-    public Tile til = new Tile();
+    public Grass til = new Grass(600, 600, 0, 5);
+    public Grass til1 = new Grass(632, 600, 0, 5);
+    public Grass til2 = new Grass(664, 600, 0, 5);
 
     public MainClass() {
         this.setSize(SCREENWIDTH, SCREENHEIGHT);
@@ -71,6 +74,9 @@ public class MainClass extends JPanel {
                 g.drawImage(Tile.bufArray[i * 16 + j], j * 32, i * 32, null);
             }
         }
+        til.draw(g);
+        til1.draw(g);
+        til2.draw(g);
     }
 
 
