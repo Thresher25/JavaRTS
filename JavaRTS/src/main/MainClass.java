@@ -7,8 +7,10 @@ import Tiles.Water;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
-public class MainClass extends JPanel {
+public class MainClass extends JPanel implements KeyListener {
 
     public static final int SCREENWIDTH = 1920;
     public static final int SCREENHEIGHT = 1080;
@@ -26,7 +28,10 @@ public class MainClass extends JPanel {
         frame = new JFrame("JavaRTS");
         frame.setSize(SCREENWIDTH, SCREENHEIGHT);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        frame.setUndecorated(true);
         frame.setVisible(true);
+        frame.addKeyListener(this);
         frame.add(this);
     }
 
@@ -57,6 +62,7 @@ public class MainClass extends JPanel {
             }
             mc.frame.repaint();
         }
+        System.exit(0);
 
     }
 
@@ -81,4 +87,20 @@ public class MainClass extends JPanel {
     }
 
 
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+            quit = true;
+        }
+    }
 }
