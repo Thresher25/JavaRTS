@@ -1,5 +1,6 @@
 package Tiles;
 
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -20,16 +21,28 @@ public class TileMap {
         }
         width = Integer.parseInt(reader.readLine());
         height = Integer.parseInt(reader.readLine());
+        String temp[] = new String[height];
+        for (int i = 0; i < height; i++) {
+            temp[i] = reader.readLine();
+        }
+        reader.close();
         map = new Tile[width * height];
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                map[i * height + j] = convertToTile() //TODO make the bufReader parse the line and segment it into nums for each tile
+                map[i * height + j] = convertToTile(Tile.dimension * j, Tile.dimension * i, getNums(temp[i], j));
             }
         }
 
     }
 
-    public Tile convertToTile(int t, int d, int x, int y, int h) {
+    public String getNums(String line, int pos) {
+        return (line.substring(line.indexOf(":", pos * 3 + pos) + 1, (line.indexOf(":", pos * 3 + pos)) + 4));
+    }
+
+    public Tile convertToTile(int x, int y, String s) {
+        int t = Integer.parseInt(s.substring(0, 1));
+        int d = Integer.parseInt(s.substring(1, 2));
+        int h = Integer.parseInt(s.substring(2));
         switch (t) {
             case 1:
                 return new Grass(x, y, h, d);
@@ -51,6 +64,12 @@ public class TileMap {
 
             default:
                 return null;
+        }
+    }
+
+    public void draw(Graphics g) {
+        for (int i = 0; i < map.length; i++) {
+            map[i].draw(g);
         }
     }
 

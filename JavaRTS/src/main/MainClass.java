@@ -1,14 +1,13 @@
 package main;
 
 
-import Tiles.Grass;
-import Tiles.Tile;
-import Tiles.Water;
+import Tiles.TileMap;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.IOException;
 
 public class MainClass extends JPanel implements KeyListener {
 
@@ -16,11 +15,14 @@ public class MainClass extends JPanel implements KeyListener {
     public static final int SCREENHEIGHT = 1080;
     boolean quit = false;
     public JFrame frame;
-    public Grass til = new Grass(600, 600, 0, 5);
-    public Water til1 = new Water(632, 600, 0);
-    public Grass til2 = new Grass(664, 600, 0, 5);
+    public TileMap gameMap;
 
     public MainClass() {
+        try {
+            gameMap = new TileMap("res/DefaultMap.txt");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         this.setSize(SCREENWIDTH, SCREENHEIGHT);
         this.setVisible(true);
         this.setDoubleBuffered(true);
@@ -76,14 +78,15 @@ public class MainClass extends JPanel implements KeyListener {
         g.clearRect(0, 0, SCREENWIDTH, SCREENHEIGHT);
         g.setColor(Color.MAGENTA);
         g.fillRect(0, 0, SCREENWIDTH, SCREENHEIGHT);
-        for (int i = 0; i < Math.sqrt(Tile.bufArray.length); i++) {
+       /* for (int i = 0; i < Math.sqrt(Tile.bufArray.length); i++) {
             for (int j = 0; j < Math.sqrt(Tile.bufArray.length); j++) {
                 g.drawImage(Tile.bufArray[i * 16 + j], j * 32, i * 32, null);
             }
         }
         til.draw(g);
         til1.draw(g);
-        til2.draw(g);
+        til2.draw(g);*/
+        gameMap.draw(g);
     }
 
 

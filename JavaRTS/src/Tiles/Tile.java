@@ -9,6 +9,7 @@ import java.io.IOException;
 public class Tile {
     public BufferedImage image;
     public static BufferedImage bufArray[] = new BufferedImage[256];
+    public static int dimension = 32;
     public int xPos, yPos, height, tileID;
     public boolean walkable, constructable;
 
