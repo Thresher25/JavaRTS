@@ -2,6 +2,7 @@ package main;
 
 
 import Tiles.TileMap;
+import Units.SovietConscript;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,6 +17,7 @@ public class MainClass extends JPanel implements KeyListener {
     boolean quit = false;
     public JFrame frame;
     public TileMap gameMap;
+    public SovietConscript guy = new SovietConscript(100, 100);
 
     public MainClass() {
         try {
@@ -69,7 +71,7 @@ public class MainClass extends JPanel implements KeyListener {
     }
 
     public void update(double pTimeElapsed) {
-
+        guy.update(pTimeElapsed);
     }
 
     @Override
@@ -87,6 +89,7 @@ public class MainClass extends JPanel implements KeyListener {
         til1.draw(g);
         til2.draw(g);*/
         gameMap.draw(g);
+        guy.draw(g);
     }
 
 
