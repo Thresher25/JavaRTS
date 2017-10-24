@@ -13,6 +13,7 @@ public class SovietConscript {
     //Possibly add either an AI state, or add an AI class to each unit
     public float xPos, yPos, angle;
     public double timePassed;
+    public boolean movingRight = true;
     public String filePath = "res/CivSprite.png";
 
     public SovietConscript(float x, float y) {
