@@ -7,11 +7,11 @@ import java.io.File;
 import java.io.IOException;
 
 public class Tile {
-    public BufferedImage image;
-    public static BufferedImage bufArray[] = new BufferedImage[256];
-    public static int dimension = 32;
-    public int xPos, yPos, height, tileID;
-    public boolean walkable, constructable;
+    private BufferedImage image;
+    private static BufferedImage bufArray[] = new BufferedImage[256];
+    private static int dimension = 32;//Investigate whether this should be static
+    private int xPos, yPos, height, tileID;
+    private boolean walkable, constructable;
 
     public Tile(int x, int y, int h) {
         try {
@@ -29,6 +29,10 @@ public class Tile {
         height = h;
     }
 
+    public static int getDimension(){
+        return dimension;
+    }
+    
     public void draw(Graphics g) {
         g.drawImage(bufArray[tileID], xPos, yPos, null);
     }
@@ -67,5 +71,5 @@ public class Tile {
                 break;
         }
     }
-
+   
 }
