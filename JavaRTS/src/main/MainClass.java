@@ -29,16 +29,16 @@ public class MainClass extends JPanel implements KeyListener {
     public SovietConscript guy10 = new SovietConscript(80, 170);
 
     public MainClass() {
-        guy1.curImageX += 9;
-        guy2.curImageX += 8;
-        guy3.curImageX += 7;
-        guy4.curImageX += 6;
-        guy5.curImageX += 5;
-        guy6.curImageX += 4;
-        guy7.curImageX += 3;
-        guy8.curImageX += 2;
-        guy9.curImageX += 1;
-        guy10.curImageX += 0;
+        guy1.setCurImageX(guy1.getCurImageX()+9);
+        guy2.setCurImageX(guy2.getCurImageX()+8);
+        guy3.setCurImageX(guy3.getCurImageX()+7);
+        guy4.setCurImageX(guy4.getCurImageX()+6);
+        guy5.setCurImageX(guy5.getCurImageX()+5);
+        guy6.setCurImageX(guy6.getCurImageX()+4);
+        guy7.setCurImageX(guy7.getCurImageX()+3);
+        guy8.setCurImageX(guy8.getCurImageX()+2);
+        guy9.setCurImageX(guy9.getCurImageX()+1);
+        guy10.setCurImageX(guy10.getCurImageX()+0);
         try {
             gameMap = new TileMap("res/DefaultMap.txt");
         } catch (IOException e) {
