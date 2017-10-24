@@ -29,7 +29,8 @@ public class TileMap {
         map = new Tile[width * height];
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                map[i * height + j] = convertToTile(Tile.dimension * j, Tile.dimension * i, getNums(temp[i], j));
+                map[j * height + i] = convertToTile(Tile.dimension * j, Tile.dimension * i, getNums(temp[i], j));
+                System.out.println(j * height + i);//TODO look into why its this not i * height + j
             }
         }
 
@@ -40,14 +41,14 @@ public class TileMap {
     }
 
     public Tile convertToTile(int x, int y, String s) {
-        int t = Integer.parseInt(s.substring(0, 1));
-        int d = Integer.parseInt(s.substring(1, 2));
-        int h = Integer.parseInt(s.substring(2));
+        int t = Integer.parseInt(s.substring(0, 1));//the type of tile
+        int d = Integer.parseInt(s.substring(1, 2));//the "direction" of the tile
+        int h = Integer.parseInt(s.substring(2));//the height, default to 0
         switch (t) {
             case 1:
                 return new Grass(x, y, h, d);
             case 2:
-                return new Water(x, y, h);
+                return new Water(x, y, h, d);
             case 3:
                 return new RockyWall(x, y, h, d);
             case 4:
