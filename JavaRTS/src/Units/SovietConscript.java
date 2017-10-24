@@ -8,13 +8,13 @@ import java.io.IOException;
 
 public class SovietConscript {
 
-    public static BufferedImage[][] image = new BufferedImage[10][8];
-    public int state, curImageX, curImageY, count;
+    private static BufferedImage[][] image = new BufferedImage[10][8];
+    private int state, curImageX, curImageY, count;
     //Possibly add either an AI state, or add an AI class to each unit
-    public float xPos, yPos, angle;
-    public double timePassed;
-    public boolean movingRight = true;
-    public String filePath = "res/CivSprite.png";
+    private float xPos, yPos, angle;
+    private double timePassed;
+    private boolean movingRight = true;
+    private static String filePath = "res/CivSprite.png";
 
     public SovietConscript(float x, float y) {
 
@@ -70,6 +70,20 @@ public class SovietConscript {
 
         g.drawImage(image[curImageX][curImageY], (int) xPos - image[curImageX][curImageY].getWidth() / 2, (int) yPos - image[curImageX][curImageY].getHeight() / 2, null);
 
+    }
+    public int getCurImageX(){
+        return curImageX;
+    }
+    public int getCurImageY(){
+        return curImageY;
+    }
+    
+    public void setCurImageX(int num){
+        this.curImageX = num;
+    }
+    
+    public void setCurImageY(int num){
+        this.curImageY = num;
     }
 
 }
