@@ -30,7 +30,7 @@ public class TileMap {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 map[j * height + i] = convertToTile(Tile.getDimension() * j, Tile.getDimension() * i, getNums(temp[i], j));
-                System.out.println(j * height + i);//TODO look into why its this not i * height + j
+                //TODO look into why its this not i * height + j
             }
         }
 
