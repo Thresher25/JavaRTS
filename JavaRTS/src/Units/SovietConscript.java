@@ -7,6 +7,7 @@ import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class SovietConscript {
 
@@ -14,6 +15,7 @@ public class SovietConscript {
     private int state, curImageX, curImageY, count, focusX, focusY;
     //Possibly add either an AI state, or add an AI class to each unit
     private double timePassed, xPos, yPos, angle, maxVelocity;
+    private ArrayList<Point> focusPoints = new ArrayList<Point>();
     private boolean moving, focused;
     private static String filePath = "res/CivSprite.png";
 
@@ -90,17 +92,23 @@ public class SovietConscript {
     }
 
     public void moveToFocus() {
-        if (focused) {
-            if (-1 <= (xPos - focusX) && (xPos - focusX) <= 1 && -1 <= (yPos - focusY) && (yPos - focusY) <= 1) {
-                xPos = focusX;
-                yPos = focusY;
-                moving = false;
-                focused = false;
+        if (focusPoints.size()>0) {
+            if (-1 <= (xPos - focusPoints.get(0).x) && (xPos - focusPoints.get(0).x) <= 1 && -1 <= (yPos - focusPoints.get(0).y) && (yPos - focusPoints.get(0).y) <= 1) {
+                xPos = focusPoints.get(0).x;
+                yPos = focusPoints.get(0).y;
+                    focusPoints.remove(0);
+                    if(focusPoints.size()<=0){
+                        moving=false;
+                    }
             } else {
-                calcAngle(focusX, focusY);
+                calcAngle(focusPoints.get(0).x, focusPoints.get(0).y);
                 moving = true;
             }
         }
+    }
+    
+    public void addFocusPoint(int x, int y){
+        focusPoints.add(new Point(x,y));
     }
 
     public void setFocusPoint(int x, int y) {
