@@ -11,10 +11,10 @@ import java.io.IOException;
 public class SovietConscript {
 
     private static BufferedImage[][] image = new BufferedImage[17][8];
-    private int state, curImageX, curImageY, count;
+    private int state, curImageX, curImageY, count, focusX, focusY;
     //Possibly add either an AI state, or add an AI class to each unit
     private double timePassed, xPos, yPos, angle, maxVelocity;
-    private boolean moving;
+    private boolean moving, focused;
     private static String filePath = "res/CivSprite.png";
 
     public SovietConscript(double x, double y) {
@@ -53,26 +53,34 @@ public class SovietConscript {
         count = 0;
         timePassed = 0;
         maxVelocity = 15;
-        moving = true;
+        moving = false;
+        focused = false;
+        focusX = 0;
+        focusY = 0;
     }
 
     public void update(double t) {//where t is time in milliseconds
         timePassed += t;
-        calcAngle(700, 100);
+        moveToFocus();
         /*angle+=(t/1000*0.3)/16.0*2*Math.PI;
         if(angle>Math.PI*2){
             angle=0;
         }*/
         calcCurImage();
-        if (timePassed >= (1.0 / 2.0 * 1000)) {
-            if (curImageY >= 7) {
-                curImageY = 0;
+        if (moving) {
+            if (timePassed >= (1.0 / 2.0 * 1000)) {
+                if (curImageY >= 7) {
+                    curImageY = 0;
+                } else {
+                    curImageY++;
+                }
+                timePassed -= (1.0 / 2.0 * 1000);
             } else {
-                curImageY++;
-            }
-            timePassed -= (1.0 / 2.0 * 1000);
-        } else {
 
+            }
+        } else {
+            curImageY = 2;
+            //angle-=(t/1000*0.5)/16.0*2*Math.PI;
         }
 
         if (moving) {
@@ -81,8 +89,24 @@ public class SovietConscript {
         }
     }
 
-    public void goToPoint() {
-        
+    public void moveToFocus() {
+        if (focused) {
+            if (-1 <= (xPos - focusX) && (xPos - focusX) <= 1 && -1 <= (yPos - focusY) && (yPos - focusY) <= 1) {
+                xPos = focusX;
+                yPos = focusY;
+                moving = false;
+                focused = false;
+            } else {
+                calcAngle(focusX, focusY);
+                moving = true;
+            }
+        }
+    }
+
+    public void setFocusPoint(int x, int y) {
+        focused = true;
+        focusX = x;
+        focusY = y;
     }
 
     public void calcAngle(int x, int y) {

@@ -8,9 +8,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.IOException;
 
-public class MainClass extends JPanel implements KeyListener {
+public class MainClass extends JPanel implements KeyListener, MouseListener {
 
     public static final int SCREENWIDTH = 1920;
     public static final int SCREENHEIGHT = 1080;
@@ -29,7 +31,7 @@ public class MainClass extends JPanel implements KeyListener {
         this.setSize(SCREENWIDTH, SCREENHEIGHT);
         this.setVisible(true);
         this.setDoubleBuffered(true);
-
+        this.addMouseListener(this);
         frame = new JFrame("JavaRTS");
         frame.setSize(SCREENWIDTH, SCREENHEIGHT);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -101,5 +103,30 @@ public class MainClass extends JPanel implements KeyListener {
         if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
             quit = true;
         }
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        guy1.setFocusPoint(e.getX(), e.getY());
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
     }
 }
