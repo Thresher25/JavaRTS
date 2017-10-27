@@ -17,8 +17,8 @@ public class MainClass extends JPanel implements KeyListener {
     boolean quit = false;
     public JFrame frame;
     public TileMap gameMap;
-    public SovietConscript guy1 = new SovietConscript(30, 20);
-    public SovietConscript guy2 = new SovietConscript(80, 20);
+    public SovietConscript guy1 = new SovietConscript(400, 400);
+   /* public SovietConscript guy2 = new SovietConscript(80, 20);
     public SovietConscript guy3 = new SovietConscript(130, 20);
     public SovietConscript guy4 = new SovietConscript(30, 70);
     public SovietConscript guy5 = new SovietConscript(80, 70);
@@ -26,11 +26,11 @@ public class MainClass extends JPanel implements KeyListener {
     public SovietConscript guy7 = new SovietConscript(30, 120);
     public SovietConscript guy8 = new SovietConscript(80, 120);
     public SovietConscript guy9 = new SovietConscript(130, 120);
-    public SovietConscript guy10 = new SovietConscript(80, 170);
+    public SovietConscript guy10 = new SovietConscript(80, 170);*/
 
     public MainClass() {
-        guy1.setCurImageX(guy1.getCurImageX()+9);
-        guy2.setCurImageX(guy2.getCurImageX()+8);
+        guy1.setCurImageX(guy1.getCurImageX() + 0);
+       /* guy2.setCurImageX(guy2.getCurImageX()+8);
         guy3.setCurImageX(guy3.getCurImageX()+7);
         guy4.setCurImageX(guy4.getCurImageX()+6);
         guy5.setCurImageX(guy5.getCurImageX()+5);
@@ -38,7 +38,7 @@ public class MainClass extends JPanel implements KeyListener {
         guy7.setCurImageX(guy7.getCurImageX()+3);
         guy8.setCurImageX(guy8.getCurImageX()+2);
         guy9.setCurImageX(guy9.getCurImageX()+1);
-        guy10.setCurImageX(guy10.getCurImageX()+0);
+        guy10.setCurImageX(guy10.getCurImageX()+0);*/
         try {
             gameMap = new TileMap("res/DefaultMap.txt");
         } catch (IOException e) {
@@ -91,7 +91,7 @@ public class MainClass extends JPanel implements KeyListener {
 
     public void update(double pTimeElapsed) {
         guy1.update(pTimeElapsed);
-        guy2.update(pTimeElapsed);
+       /* guy2.update(pTimeElapsed);
         guy3.update(pTimeElapsed);
         guy4.update(pTimeElapsed);
         guy5.update(pTimeElapsed);
@@ -99,7 +99,7 @@ public class MainClass extends JPanel implements KeyListener {
         guy7.update(pTimeElapsed);
         guy8.update(pTimeElapsed);
         guy9.update(pTimeElapsed);
-        guy10.update(pTimeElapsed);
+        guy10.update(pTimeElapsed);*/
     }
 
     @Override
@@ -118,7 +118,7 @@ public class MainClass extends JPanel implements KeyListener {
         til2.draw(g);*/
         gameMap.draw(g);
         guy1.draw(g);
-        guy2.draw(g);
+       /* guy2.draw(g);
         guy3.draw(g);
         guy4.draw(g);
         guy5.draw(g);
@@ -126,7 +126,7 @@ public class MainClass extends JPanel implements KeyListener {
         guy7.draw(g);
         guy8.draw(g);
         guy9.draw(g);
-        guy10.draw(g);
+        guy10.draw(g);*/
     }
 
 

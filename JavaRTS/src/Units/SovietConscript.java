@@ -13,12 +13,11 @@ public class SovietConscript {
     private static BufferedImage[][] image = new BufferedImage[20][8];
     private int state, curImageX, curImageY, count;
     //Possibly add either an AI state, or add an AI class to each unit
-    private float xPos, yPos, angle;
-    private double timePassed;
-    private boolean movingRight = true;
+    private double timePassed, xPos, yPos, angle, maxVelocity;
+    private boolean moving;
     private static String filePath = "res/CivSprite.png";
 
-    public SovietConscript(float x, float y) {
+    public SovietConscript(double x, double y) {
         
         try {
             BufferedImage temp = ImageIO.read(new File(filePath));
@@ -54,24 +53,94 @@ public class SovietConscript {
         curImageY = 0;
         count = 0;
         timePassed = 0;
+        maxVelocity = 15;
+        moving = true;
     }
 
-    public void update(double t) {
+    public void update(double t) {//where t is time in milliseconds
         timePassed += t;
+        calcAngle(600, 100);
+        System.out.println(angle);
+        //angle+=(t/1000*0.1)/16.0*2*Math.PI;
+        if (angle > Math.PI * 2) {
+            //    angle = 0;
+        }
+        calcCurImage();
         if (timePassed >= (1.0 / 2.0 * 1000)) {
             if (curImageY >= 7) {
                 curImageY = 0;
-                if (curImageX >= 19) {
-                    curImageX = 0;
-                } else {
-                    curImageX++;
-                }
             } else {
                 curImageY++;
             }
             timePassed -= (1.0 / 2.0 * 1000);
         } else {
 
+        }
+
+        if (moving) {
+            xPos += (t / 1000) * maxVelocity * Math.sin(angle);
+            yPos += (t / 1000) * maxVelocity * Math.cos(angle);
+        }
+    }
+
+    public void calcAngle(int x, int y) {//no work for q1,q3
+        double a, o;
+        if ((x < xPos && y < yPos) || (x > xPos && y > yPos)) {
+            a = (double) x - xPos;
+            o = (double) y - yPos;
+        } else if (x < xPos && y > yPos) {//this no work
+            a = (double) x - xPos;
+            o = (double) y - yPos;
+        } else if (x > xPos && y < yPos) {//this no work
+            a = (double) x - xPos;
+            o = (double) y - yPos;
+        } else {
+            a = 0;
+            o = 0;
+            System.out.println("A and O Problem B0SS");
+        }
+        angle = Math.atan2(o, a);
+    }
+
+    public void calcCurImage() {//make this so that the angle is in between the ranges: eg 15-25 deg = some num instead of 20-30deg
+        if (angle >= 0.0 / 16.0 * Math.PI * 2.0 && angle < 1.0 / 16.0 * Math.PI * 2.0) {
+            curImageX = 8;
+        } else if (angle >= 0.0 / 16.0 * Math.PI * 2.0 && angle < 1.0 / 16.0 * Math.PI * 2.0) {
+            curImageX = 7;
+        } else if (angle >= 1.0 / 16.0 * Math.PI * 2.0 && angle < 2.0 / 16.0 * Math.PI * 2.0) {
+            curImageX = 6;
+        } else if (angle >= 2.0 / 16.0 * Math.PI * 2.0 && angle < 3.0 / 16.0 * Math.PI * 2.0) {
+            curImageX = 5;
+        } else if (angle >= 3.0 / 16.0 * Math.PI * 2.0 && angle < 4.0 / 16.0 * Math.PI * 2.0) {
+            curImageX = 4;
+        } else if (angle >= 4.0 / 16.0 * Math.PI * 2.0 && angle < 5.0 / 16.0 * Math.PI * 2.0) {
+            curImageX = 3;
+        } else if (angle >= 5.0 / 16.0 * Math.PI * 2.0 && angle < 6.0 / 16.0 * Math.PI * 2.0) {
+            curImageX = 2;
+        } else if (angle >= 6.0 / 16.0 * Math.PI * 2.0 && angle < 7.0 / 16.0 * Math.PI * 2.0) {
+            curImageX = 1;
+        } else if (angle >= 7.0 / 16.0 * Math.PI * 2.0 && angle < 8.0 / 16.0 * Math.PI * 2.0) {
+            curImageX = 0;
+        } else if (angle >= 8.0 / 16.0 * Math.PI * 2.0 && angle < 9.0 / 16.0 * Math.PI * 2.0) {
+            curImageX = 10;
+        } else if (angle >= 9.0 / 16.0 * Math.PI * 2.0 && angle < 10.0 / 16.0 * Math.PI * 2.0) {
+            curImageX = 11;
+        } else if (angle >= 10.0 / 16.0 * Math.PI * 2.0 && angle < 11.0 / 16.0 * Math.PI * 2.0) {
+            curImageX = 12;
+        } else if (angle >= 11.0 / 16.0 * Math.PI * 2.0 && angle < 12.0 / 16.0 * Math.PI * 2.0) {
+            curImageX = 13;
+        } else if (angle >= 12.0 / 16.0 * Math.PI * 2.0 && angle < 13.0 / 16.0 * Math.PI * 2.0) {
+            curImageX = 14;
+        } else if (angle >= 13.0 / 16.0 * Math.PI * 2.0 && angle < 14.0 / 16.0 * Math.PI * 2.0) {
+            curImageX = 15;
+        } else if (angle >= 14.0 / 16.0 * Math.PI * 2.0 && angle < 15.0 / 16.0 * Math.PI * 2.0) {
+            curImageX = 16;
+        } else if (angle >= 15.0 / 16.0 * Math.PI * 2.0 && angle < 16.0 / 16.0 * Math.PI * 2.0) {
+            curImageX = 17;
+        } else if (angle == 16.0 / 16.0 * Math.PI * 2.0) {
+            curImageX = 18;
+        } else {
+            System.out.println("Angle problem b0ss");
         }
 
     }
