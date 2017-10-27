@@ -17,6 +17,8 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
     public static final int SCREENWIDTH = 1920;
     public static final int SCREENHEIGHT = 1080;
     boolean quit = false;
+    boolean shift = false;
+    public Object focus;
     public JFrame frame;
     public TileMap gameMap;
     public SovietConscript guy1 = new SovietConscript(400, 400);
@@ -95,13 +97,17 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-
+        if(e.getKeyCode() == KeyEvent.VK_SHIFT){
+            shift = true;
+        }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
             quit = true;
+        }else if(e.getKeyCode() == KeyEvent.VK_SHIFT){
+            shift = false;
         }
     }
 
@@ -117,8 +123,15 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        
+        if(e.getButton()==MouseEvent.BUTTON3){
+        if(shift){
         guy1.addFocusPoint(e.getX(), e.getY());
+        }else if(guy1.canAddFocusPoint()){
+            guy1.addFocusPoint(e.getX(), e.getY());
+        }
+        }else if(e.getButton()==MouseEvent.BUTTON1){
+            focus = guy1;
+        }
     }
 
     @Override
