@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class SovietConscript {
 
     private static BufferedImage[][] image = new BufferedImage[17][8];
-    private int state, curImageX, curImageY, count, focusX, focusY;
+    private int state, curImageX, curImageY, count;
     //Possibly add either an AI state, or add an AI class to each unit
     private double timePassed, xPos, yPos, angle, maxVelocity;
     private ArrayList<Point> focusPoints = new ArrayList<Point>();
@@ -57,8 +57,6 @@ public class SovietConscript {
         maxVelocity = 15;
         moving = false;
         focused = false;
-        focusX = 0;
-        focusY = 0;
     }
 
     public void update(double t) {//where t is time in milliseconds
@@ -111,12 +109,6 @@ public class SovietConscript {
         focusPoints.add(new Point(x,y));
     }
 
-    public void setFocusPoint(int x, int y) {
-        focused = true;
-        focusX = x;
-        focusY = y;
-    }
-
     public void calcAngle(int x, int y) {
         double dx = (double) x - xPos;
         double dy = -(yPos - (double) y);
@@ -124,6 +116,13 @@ public class SovietConscript {
         if (angle < 0) {
             angle += 2 * Math.PI;
         }
+    }
+    
+    public boolean canAddFocusPoint(){
+        if(focusPoints.size()<=0){
+            return true;
+        }
+        return false;
     }
 
     public void calcCurImage() {
