@@ -117,7 +117,8 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        guy1.setFocusPoint(e.getX(), e.getY());
+        
+        guy1.addFocusPoint(e.getX(), e.getY());
     }
 
     @Override
