@@ -2,6 +2,7 @@ package Units;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
@@ -9,18 +10,21 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class SovietConscript {
+public class SovietConscript extends Unit {
 
     private static BufferedImage[][] image = new BufferedImage[17][8];
-    private int state, curImageX, curImageY, count;
+    private int curImageX, curImageY;
     //Possibly add either an AI state, or add an AI class to each unit
-    private double timePassed, xPos, yPos, angle, maxVelocity;
+    private double timePassed;
     private ArrayList<Point> focusPoints = new ArrayList<Point>();
-    private boolean moving, focused;
+    private boolean focused;
     private static String filePath = "res/CivSprite.png";
 
     public SovietConscript(double x, double y) {
-        
+        super(x, y);
+        int[] xPoints = {-10, 11, 11, -10};
+        int[] yPoints = {-16, -16, 16, 16};
+        area = new Polygon(xPoints, yPoints, 4);
         try {
             BufferedImage temp = ImageIO.read(new File(filePath));
             for (int i = 0; i < image.length; i++) {
@@ -46,13 +50,11 @@ public class SovietConscript {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        state = 0;
         xPos = x;
         yPos = y;
         angle = 0;
         curImageX = 0;
         curImageY = 0;
-        count = 0;
         timePassed = 0;
         maxVelocity = 15;
         moving = false;
@@ -60,6 +62,7 @@ public class SovietConscript {
     }
 
     public void update(double t) {//where t is time in milliseconds
+        super.update(t);
         timePassed += t;
         moveToFocus();
         /*angle+=(t/1000*0.3)/16.0*2*Math.PI;
@@ -67,7 +70,7 @@ public class SovietConscript {
             angle=0;
         }*/
         calcCurImage();
-        if (moving) {
+        if (moving) {//move this into a separate method
             if (timePassed >= (1.0 / 2.0 * 1000)) {
                 if (curImageY >= 7) {
                     curImageY = 0;
@@ -83,10 +86,7 @@ public class SovietConscript {
             //angle-=(t/1000*0.5)/16.0*2*Math.PI;
         }
 
-        if (moving) {
-            xPos += (t / 1000) * maxVelocity * Math.cos(angle);
-            yPos += (t / 1000) * maxVelocity * Math.sin(angle);
-        }
+        super.move(t);
     }
 
     public void moveToFocus() {
@@ -119,10 +119,12 @@ public class SovietConscript {
     }
     
     public boolean canAddFocusPoint(){
-        if(focusPoints.size()<=0){
-            return true;
-        }
-        return false;
+        return focusPoints.size() <= 0;
+    }
+
+    public void setFocusPoint(int x, int y) {
+        focusPoints.clear();
+        focusPoints.add(new Point(x, y));
     }
 
     public void calcCurImage() {
@@ -183,6 +185,15 @@ public class SovietConscript {
     
     public void setCurImageY(int num){
         this.curImageY = num;
+    }
+
+    @Override
+    public void passInMouseReleasedEvent(MouseEvent e) {
+        if (shift) {
+            addFocusPoint(e.getX(), e.getY());
+        } else {
+            setFocusPoint(e.getX(), e.getY());
+        }
     }
 
 }

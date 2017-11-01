@@ -18,7 +18,7 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
     public static final int SCREENHEIGHT = 1080;
     boolean quit = false;
     boolean shift = false;
-    public Object focus;
+    public Controllable focus = null;
     public JFrame frame;
     public TileMap gameMap;
     public SovietConscript guy1 = new SovietConscript(400, 400);
@@ -98,7 +98,7 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
     @Override
     public void keyPressed(KeyEvent e) {
         if(e.getKeyCode() == KeyEvent.VK_SHIFT){
-            shift = true;
+            guy1.passInKeyboardPressed(e);
         }
     }
 
@@ -107,7 +107,7 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
         if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
             quit = true;
         }else if(e.getKeyCode() == KeyEvent.VK_SHIFT){
-            shift = false;
+            guy1.passInKeyboardReleased(e);
         }
     }
 
@@ -124,13 +124,15 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
     @Override
     public void mouseReleased(MouseEvent e) {
         if(e.getButton()==MouseEvent.BUTTON3){
-        if(shift){
-        guy1.addFocusPoint(e.getX(), e.getY());
-        }else if(guy1.canAddFocusPoint()){
-            guy1.addFocusPoint(e.getX(), e.getY());
-        }
+            if (focus != null) {
+                focus.passInMouseReleasedEvent(e);
+            }
         }else if(e.getButton()==MouseEvent.BUTTON1){
-            focus = guy1;
+            // System.out.println(e.getX()-(int)guy1.getXPos());
+            // System.out.println(e.getY()-(int)guy1.getYPos());
+            if (guy1.isInArea(new Point(e.getX() - (int) guy1.getXPos(), e.getY() - (int) guy1.getYPos()))) {
+                focus = guy1;
+            }
         }
     }
 
