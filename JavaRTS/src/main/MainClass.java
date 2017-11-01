@@ -3,7 +3,7 @@ package main;
 
 import Tiles.TileMap;
 import Units.SovietConscript;
-
+import Units.Unit;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -11,6 +11,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class MainClass extends JPanel implements KeyListener, MouseListener {
 
@@ -19,12 +20,15 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
     boolean quit = false;
     boolean shift = false;
     public Controllable focus = null;
+    public ArrayList<Unit> focusables = new ArrayList<Unit>();
     public JFrame frame;
     public TileMap gameMap;
-    public SovietConscript guy1 = new SovietConscript(400, 400);
+    //public Rectangle selectedArea = new Rectangle();
+    public Point topLeft, bottomRight;
 
     public MainClass() {
-        guy1.setCurImageX(guy1.getCurImageX() + 0);
+        focusables.add(new SovietConscript(500, 500));
+        focusables.add(new SovietConscript(400, 400));
         try {
             gameMap = new TileMap("res/DefaultMap.txt");
         } catch (IOException e) {
@@ -76,7 +80,9 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
     }
 
     public void update(double pTimeElapsed) {
-        guy1.update(pTimeElapsed);
+        for(int i=0;i<focusables.size();i++){
+            focusables.get(i).update(pTimeElapsed);
+        }
     }
 
     @Override
@@ -86,7 +92,9 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
         g.setColor(Color.MAGENTA);
         g.fillRect(0, 0, SCREENWIDTH, SCREENHEIGHT);
         gameMap.draw(g);
-        guy1.draw(g);
+        for(int i=0;i<focusables.size();i++){
+            focusables.get(i).draw(g);
+        }
     }
 
 
@@ -98,7 +106,7 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
     @Override
     public void keyPressed(KeyEvent e) {
         if(e.getKeyCode() == KeyEvent.VK_SHIFT){
-            guy1.passInKeyboardPressed(e);
+            focus.passInKeyboardPressed(e);
         }
     }
 
@@ -107,7 +115,7 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
         if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
             quit = true;
         }else if(e.getKeyCode() == KeyEvent.VK_SHIFT){
-            guy1.passInKeyboardReleased(e);
+            focus.passInKeyboardReleased(e);
         }
     }
 
@@ -118,7 +126,9 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
 
     @Override
     public void mousePressed(MouseEvent e) {
-
+        if(e.getButton() == MouseEvent.BUTTON1){
+            topLeft = e.getPoint();
+        }
     }
 
     @Override
@@ -128,11 +138,19 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
                 focus.passInMouseReleasedEvent(e);
             }
         }else if(e.getButton()==MouseEvent.BUTTON1){
-            // System.out.println(e.getX()-(int)guy1.getXPos());
-            // System.out.println(e.getY()-(int)guy1.getYPos());
-            if (guy1.isInArea(new Point(e.getX() - (int) guy1.getXPos(), e.getY() - (int) guy1.getYPos()))) {
-                focus = guy1;
+            bottomRight = e.getPoint();
+            for(int i=0;i<focusables.size();i++){
+                if(focusables.get(i).getShape().intersects(topLeft.x(int) focusables.get(i).getXPos(),topLeft.y(int) focusables.get(i).getYPos(),bottomRight.x-topLeft.x,bottomRight.y-topRight.y)){
+                    focus = focusables.get(i);
+                }
             }
+            
+            for(int i=0;i<focusables.size();i++){
+               if (focusables.get(i).isInArea(new Point(e.getX() - (int) focusables.get(i).getXPos(), e.getY() - (int) focusables.get(i).getYPos()))) {
+                focus = focusables.get(i);
+                } 
+            }
+            
         }
     }
 
