@@ -28,6 +28,10 @@ public class Unit implements Controllable {
         moving = false;
         shift = false;
     }
+    
+    public Polygon getShape(){
+        return area;
+    }
 
     public boolean isInArea(Point p) {
         return area.contains(p);
@@ -35,6 +39,10 @@ public class Unit implements Controllable {
 
     public void update(double time) {
 
+    }
+    
+    public void draw(Graphics g){
+        
     }
 
     public void move(double time) {
