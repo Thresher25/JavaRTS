@@ -117,8 +117,8 @@ public class SovietConscript extends Unit {
             angle += 2 * Math.PI;
         }
     }
-    
-    public boolean canAddFocusPoint(){
+
+    public boolean getNumFocusPoints() {
         return focusPoints.size() <= 0;
     }
 

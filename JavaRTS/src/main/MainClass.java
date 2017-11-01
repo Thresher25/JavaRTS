@@ -4,6 +4,7 @@ package main;
 import Tiles.TileMap;
 import Units.SovietConscript;
 import Units.Unit;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -18,8 +19,10 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
     public static final int SCREENWIDTH = 1920;
     public static final int SCREENHEIGHT = 1080;
     boolean quit = false;
+    //public Controllable focus = null;
+    public ArrayList<Unit> focusedUnits = new ArrayList<Unit>();
     boolean shift = false;
-    public Controllable focus = null;
+    boolean mousePressed = false;
     public ArrayList<Unit> focusables = new ArrayList<Unit>();
     public JFrame frame;
     public TileMap gameMap;
@@ -95,6 +98,15 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
         for(int i=0;i<focusables.size();i++){
             focusables.get(i).draw(g);
         }
+        if (mousePressed) {
+            g.setColor(Color.BLACK);
+            g.drawLine(topLeft.x, topLeft.y, getMousePosition().x, topLeft.y);
+            g.drawLine(topLeft.x, topLeft.y, topLeft.x, getMousePosition().y);
+            g.drawLine(topLeft.x, getMousePosition().y, getMousePosition().x, getMousePosition().y);
+            g.drawLine(getMousePosition().x, topLeft.y, getMousePosition().x, getMousePosition().y);
+            g.setColor(new Color(65, 190, 190, 80));
+            g.fillRect(topLeft.x, topLeft.y, getMousePosition().x - topLeft.x, getMousePosition().y - topLeft.y);
+        }
     }
 
 
@@ -106,7 +118,9 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
     @Override
     public void keyPressed(KeyEvent e) {
         if(e.getKeyCode() == KeyEvent.VK_SHIFT){
-            focus.passInKeyboardPressed(e);
+            for (int i = 0; i < focusedUnits.size(); i++) {
+                focusedUnits.get(i).passInKeyboardPressed(e);
+            }
         }
     }
 
@@ -115,7 +129,9 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
         if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
             quit = true;
         }else if(e.getKeyCode() == KeyEvent.VK_SHIFT){
-            focus.passInKeyboardReleased(e);
+            for (int i = 0; i < focusedUnits.size(); i++) {
+                focusedUnits.get(i).passInKeyboardReleased(e);
+            }
         }
     }
 
@@ -128,26 +144,36 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
     public void mousePressed(MouseEvent e) {
         if(e.getButton() == MouseEvent.BUTTON1){
             topLeft = e.getPoint();
+            mousePressed = true;
         }
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
         if(e.getButton()==MouseEvent.BUTTON3){
-            if (focus != null) {
-                focus.passInMouseReleasedEvent(e);
+            if (focusedUnits.size() > 0) {
+                for (int i = 0; i < focusedUnits.size(); i++) {
+                    focusedUnits.get(i).passInMouseReleasedEvent(e);
+                }
             }
         }else if(e.getButton()==MouseEvent.BUTTON1){
+            mousePressed = false;
             bottomRight = e.getPoint();
+            boolean changeInFocus = false;
+            focusedUnits.clear();
             for(int i=0;i<focusables.size();i++){
-                if(focusables.get(i).getShape().intersects(topLeft.x(int) focusables.get(i).getXPos(),topLeft.y(int) focusables.get(i).getYPos(),bottomRight.x-topLeft.x,bottomRight.y-topRight.y)){
-                    focus = focusables.get(i);
+                if (focusables.get(i).getShape().intersects(topLeft.x - focusables.get(i).getXPos(), topLeft.y - focusables.get(i).getYPos(), bottomRight.x - topLeft.x, bottomRight.y - topLeft.y)) {
+                    if (!changeInFocus) {
+                        changeInFocus = true;
+                    }
+                    focusedUnits.add(focusables.get(i));
                 }
             }
             
             for(int i=0;i<focusables.size();i++){
-               if (focusables.get(i).isInArea(new Point(e.getX() - (int) focusables.get(i).getXPos(), e.getY() - (int) focusables.get(i).getYPos()))) {
-                focus = focusables.get(i);
+                if (focusables.get(i).isInArea(new Point(e.getX() - (int) focusables.get(i).getXPos(), e.getY() - (int) focusables.get(i).getYPos())) && !changeInFocus) {
+                    focusedUnits.clear();
+                    focusedUnits.add(focusables.get(i));
                 } 
             }
             
