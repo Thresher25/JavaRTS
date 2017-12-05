@@ -16,7 +16,6 @@ public class SovietConscript extends Unit {
     private int curImageX, curImageY;
     //Possibly add either an AI state, or add an AI class to each unit
     private double timePassed;
-    private ArrayList<Point> focusPoints = new ArrayList<Point>();
     private boolean focused;
     private static String filePath = "res/CivSprite.png";
 
@@ -120,11 +119,6 @@ public class SovietConscript extends Unit {
 
     public boolean getNumFocusPoints() {
         return focusPoints.size() <= 0;
-    }
-
-    public void setFocusPoint(int x, int y) {
-        focusPoints.clear();
-        focusPoints.add(new Point(x, y));
     }
 
     public void calcCurImage() {
