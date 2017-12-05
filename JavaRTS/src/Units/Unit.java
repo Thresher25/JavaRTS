@@ -5,6 +5,7 @@ import main.Controllable;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 public class Unit implements Controllable {
 
@@ -12,6 +13,7 @@ public class Unit implements Controllable {
     double xPos, yPos, angle, maxVelocity;
     boolean moving;
     Polygon area;
+    ArrayList<Point> focusPoints = new ArrayList<Point>();
 
     public Unit() {
         xPos = 0;
@@ -31,6 +33,18 @@ public class Unit implements Controllable {
     
     public Polygon getShape(){
         return area;
+    }
+    
+    public Point getFocusPoint(){
+        if(focusPoints.size()==0){
+            return new Point(10000,10000);
+        }
+        return focusPoints.get(0);
+    }
+    
+    public void setFocusPoint(int x, int y) {
+        focusPoints.clear();
+        focusPoints.add(new Point(x, y));
     }
 
     public boolean isInArea(Point p) {
