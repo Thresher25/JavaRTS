@@ -187,29 +187,14 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
         }
     }
     
-    public void moveFormation(ArrayList<Unit> u, Point g){
+    public void moveFormation(ArrayList<Unit> u, Point p){
         boolean place = true;
-        Point p = g;
         for(int l=0;l<u.size();l++){
-        do{
-            place = true;
-            for(int i=0;i<u.size();i++){
-                if(place){
-                if(u.get(i).getFocusPoint().x>=p.x-u.get(l).getShape().getBounds2D().getMaxX() && u.get(i).getFocusPoint().x<=p.x+u.get(l).getShape().getBounds2D().getMaxX() && u.get(i).getFocusPoint().y>=p.y-u.get(l).getShape().getBounds2D().getMaxY() && u.get(i).getFocusPoint().y<=p.y+u.get(l).getShape().getBounds2D().getMaxY()){
-                    place=false;
-                }
-                System.out.println(p);
-                System.out.println(u.get(i).getFocusPoint());
-                System.out.println(u.get(i).getShape().getBounds2D().getMaxX()/2);
-                System.out.println(u.get(i).getShape().getBounds2D().getMaxY()/2);
+            if(l==0){
+                u.get(l).setFocusPoint(p.x, p.y);
+            }else{
+                u.get(l).setFocusPoint(p.x+u.get(l).getSpaceUnits()*l, p.y);
             }
-            }
-            
-            if(!place){
-                p.x++;
-            }
-        }while(!place);
-        u.get(l).setFocusPoint(p.x, p.y);
         }
     }
 
