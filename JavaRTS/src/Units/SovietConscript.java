@@ -24,6 +24,7 @@ public class SovietConscript extends Unit {
         int[] xPoints = {-10, 11, 11, -10};
         int[] yPoints = {-16, -16, 16, 16};
         area = new Polygon(xPoints, yPoints, 4);
+        spaceUnits = 3;
         try {
             BufferedImage temp = ImageIO.read(new File(filePath));
             for (int i = 0; i < image.length; i++) {
