@@ -11,6 +11,8 @@ public class Unit implements Controllable {
 
     static boolean shift;
     double xPos, yPos, angle, maxVelocity;
+    int spaceUnits;//the smallest square with sidelength n(units) which contains the moveable unit (this is for formations)
+    public static final int UNIT = 5;//a unit is 5 pixels;
     boolean moving;
     Polygon area;
     ArrayList<Point> focusPoints = new ArrayList<Point>();
@@ -29,6 +31,10 @@ public class Unit implements Controllable {
         angle = 0;
         moving = false;
         shift = false;
+    }
+    
+    public int getSpaceUnits(){
+        return spaceUnits*UNIT;
     }
     
     public Polygon getShape(){
