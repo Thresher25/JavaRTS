@@ -32,6 +32,12 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
     public MainClass() {
         focusables.add(new SovietConscript(500, 500));
         focusables.add(new SovietConscript(400, 400));
+        focusables.add(new SovietConscript(300, 300));
+        focusables.add(new SovietConscript(200, 200));
+        focusables.add(new SovietConscript(100, 100));
+        focusables.add(new SovietConscript(600, 600));
+        focusables.add(new SovietConscript(700, 700));
+        focusables.add(new SovietConscript(800, 800));
         try {
             gameMap = new TileMap("res/DefaultMap.txt");
         } catch (IOException e) {
@@ -152,7 +158,8 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
         if(e.getButton()==MouseEvent.BUTTON3){
             if (focusedUnits.size() > 0) {
                 for (int i = 0; i < focusedUnits.size(); i++) {
-                    focusedUnits.get(i).passInMouseReleasedEvent(e);
+                    //focusedUnits.get(i).passInMouseReleasedEvent(e);
+                    moveFormation(focusedUnits, e.getPoint());
                 }
             }
         }else if(e.getButton()==MouseEvent.BUTTON1){
@@ -176,6 +183,17 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
                 } 
             }
             
+        }
+    }
+    
+    public void moveFormation(ArrayList<Unit> u, Point p){
+        boolean place = true;
+        for(int l=0;l<u.size();l++){
+            if(l==0){
+                u.get(l).setFocusPoint(p.x, p.y);
+            }else{
+                u.get(l).setFocusPoint(p.x+u.get(l).getSpaceUnits()*l, p.y);
+            }
         }
     }
 
