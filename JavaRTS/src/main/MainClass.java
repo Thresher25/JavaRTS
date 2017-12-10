@@ -54,9 +54,8 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
     public static void main(String[] args){
         MainClass mc = new MainClass();
         double previousTime = System.currentTimeMillis();
-        // mc.frame.repaint();
-        double currentTime = System.currentTimeMillis();
-        double deltaTime = 0;
+        double currentTime;
+        double deltaTime;
         double maxDelta = 1000 / 30;
         double minDelta = 1000 / 120;
         while (!mc.quit) {
