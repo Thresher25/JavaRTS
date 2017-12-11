@@ -8,7 +8,6 @@ import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class SovietConscript extends Unit {
 
@@ -24,7 +23,7 @@ public class SovietConscript extends Unit {
         int[] xPoints = {-10, 11, 11, -10};
         int[] yPoints = {-16, -16, 16, 16};
         area = new Polygon(xPoints, yPoints, 4);
-        spaceUnits = 3;
+        spaceUnits = 1;
         try {
             BufferedImage temp = ImageIO.read(new File(filePath));
             for (int i = 0; i < image.length; i++) {

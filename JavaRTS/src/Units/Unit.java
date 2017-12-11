@@ -1,5 +1,6 @@
 package Units;
 
+import javafx.geometry.Point2D;
 import main.Controllable;
 
 import java.awt.*;
@@ -12,9 +13,11 @@ public class Unit implements Controllable {
     static boolean shift;
     double xPos, yPos, angle, maxVelocity;
     int spaceUnits;//the smallest square with sidelength n(units) which contains the moveable unit (this is for formations)
-    public static final int UNIT = 5;//a unit is 5 pixels;
+    public static final int UNIT = 15;//a unit is 15 pixels;
     boolean moving;
+    boolean inFormation = false;
     Polygon area;
+    Point2D formationOffset = new Point2D(0, 0);
     ArrayList<Point> focusPoints = new ArrayList<Point>();
 
     public Unit() {
@@ -32,7 +35,23 @@ public class Unit implements Controllable {
         moving = false;
         shift = false;
     }
-    
+
+    public Point2D getFormationOffset() {
+        return formationOffset;
+    }
+
+    public void setFormationOffset(double x, double y) {
+        formationOffset = new Point2D(x, y);
+    }
+
+    public boolean isInFormation() {
+        return inFormation;
+    }
+
+    public void setInFormation(boolean b) {
+        inFormation = b;
+    }
+
     public int getSpaceUnits(){
         return spaceUnits*UNIT;
     }

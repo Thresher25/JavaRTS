@@ -2,6 +2,7 @@ package main;
 
 
 import Tiles.TileMap;
+import Units.Formation;
 import Units.SovietConscript;
 import Units.Unit;
 
@@ -38,6 +39,7 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
         focusables.add(new SovietConscript(600, 600));
         focusables.add(new SovietConscript(700, 700));
         focusables.add(new SovietConscript(800, 800));
+
         try {
             gameMap = new TileMap("res/DefaultMap.txt");
         } catch (IOException e) {
@@ -159,7 +161,8 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
             if (focusedUnits.size() > 0) {
                 for (int i = 0; i < focusedUnits.size(); i++) {
                     //focusedUnits.get(i).passInMouseReleasedEvent(e);
-                    moveFormation(focusedUnits, e.getPoint());
+                    //moveFormation(focusedUnits, e.getPoint());
+                    new Formation(focusedUnits).moveToLocation(e.getPoint());
                 }
             }
         }else if(e.getButton()==MouseEvent.BUTTON1){
