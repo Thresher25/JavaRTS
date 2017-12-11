@@ -12,8 +12,11 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import javax.imageio.ImageIO;
 
 public class MainClass extends JPanel implements KeyListener, MouseListener {
 
@@ -56,6 +59,15 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
         frame.setUndecorated(true);
         frame.setVisible(true);
         frame.addKeyListener(this);
+        try{
+            BufferedImage cursor = ImageIO.read(new File("res/Cursor.gif"));
+            Toolkit toolkit = Toolkit.getDefaultToolkit();
+            Cursor c = toolkit.createCustomCursor(cursor , new Point(frame.getX()+15, 
+           frame.getY()+10), "RTSCursor");
+            frame.setCursor(c);
+        }catch(IOException e){
+                e.printStackTrace();
+        }
         frame.add(this);
     }
 
@@ -162,7 +174,7 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
                 for (int i = 0; i < focusedUnits.size(); i++) {
                     //focusedUnits.get(i).passInMouseReleasedEvent(e);
                     //moveFormation(focusedUnits, e.getPoint());
-                    new Formation(focusedUnits).moveToLocation(e.getPoint());
+                    new Formation(focusedUnits).moveToLocation(e.getPoint());//TODO fix this, could be more elegant
                 }
             }
         }else if(e.getButton()==MouseEvent.BUTTON1){
