@@ -22,7 +22,10 @@ public class SovietConscript extends Unit {
         super(x, y);
         int[] xPoints = {-10, 11, 11, -10};
         int[] yPoints = {-16, -16, 16, 16};
-        area = new Polygon(xPoints, yPoints, 4);
+        clickArea = new Polygon(xPoints, yPoints, 4);
+        int[] xPoints2 = {-7, 7, 7, -7};
+        int[] yPoints2 = {1, 1, 14, 14};
+        area = new Polygon(xPoints2, yPoints2, 4);
         spaceUnits = 1;
         try {
             BufferedImage temp = ImageIO.read(new File(filePath));
