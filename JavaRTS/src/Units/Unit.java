@@ -16,7 +16,7 @@ public class Unit implements Controllable {
     public static final int UNIT = 15;//a unit is 15 pixels;
     boolean moving;
     boolean inFormation = false;
-    Polygon area;
+    Polygon area, clickArea;
     Point2D formationOffset = new Point2D(0, 0);
     ArrayList<Point> focusPoints = new ArrayList<Point>();
 
@@ -73,7 +73,7 @@ public class Unit implements Controllable {
     }
 
     public boolean isInArea(Point p) {
-        return area.contains(p);
+        return clickArea.contains(p);
     }
 
     public void update(double time) {
