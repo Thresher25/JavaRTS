@@ -23,6 +23,7 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
     public static final int SCREENWIDTH = 1920;
     public static final int SCREENHEIGHT = 1080;
     boolean quit = false;
+    public int curCount = 0;
     //public Controllable focus = null;
     public ArrayList<Unit> focusedUnits = new ArrayList<Unit>();
     boolean shift = false;
@@ -30,6 +31,8 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
     public ArrayList<Unit> focusables = new ArrayList<Unit>();
     public JFrame frame;
     public TileMap gameMap;
+    public double cursorFrameChange = 675.0;
+    public Cursor[] c = new Cursor[5];
     //public Rectangle selectedArea = new Rectangle();
     public Point topLeft, bottomRight;
 
@@ -60,11 +63,18 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
         frame.setVisible(true);
         frame.addKeyListener(this);
         try{
-            BufferedImage cursor = ImageIO.read(new File("res/Cursor.gif"));
             Toolkit toolkit = Toolkit.getDefaultToolkit();
-            Cursor c = toolkit.createCustomCursor(cursor , new Point(frame.getX()+15, 
-           frame.getY()+10), "RTSCursor");
-            frame.setCursor(c);
+            c[0] = toolkit.createCustomCursor(ImageIO.read(new File("res/cur1.png")) , new Point(frame.getX()+15, 
+           frame.getY()+13), "CF1");
+            c[1] = toolkit.createCustomCursor(ImageIO.read(new File("res/cur2.png")) , new Point(frame.getX()+15, 
+           frame.getY()+13), "CF2");
+            c[2] = toolkit.createCustomCursor(ImageIO.read(new File("res/cur3.png")) , new Point(frame.getX()+15, 
+           frame.getY()+13), "CF3");
+            c[3] = toolkit.createCustomCursor(ImageIO.read(new File("res/cur4.png")) , new Point(frame.getX()+15, 
+           frame.getY()+13), "CF4");
+            c[4] = toolkit.createCustomCursor(ImageIO.read(new File("res/cur5.png")) , new Point(frame.getX()+15, 
+           frame.getY()+13), "CF5");
+            frame.setCursor(c[0]);
         }catch(IOException e){
                 e.printStackTrace();
         }
@@ -90,7 +100,6 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
                 mc.update(deltaTime);
             } else if (deltaTime > maxDelta) {
                 long div = Math.round(deltaTime / maxDelta) + 1;
-                System.out.println(div);
                 for (int i = 0; i < div; i++) {
                     mc.update(deltaTime / (double) div);
                 }
@@ -104,6 +113,16 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
     public void update(double pTimeElapsed) {
         for(int i=0;i<focusables.size();i++){
             focusables.get(i).update(pTimeElapsed);
+        }
+        cursorFrameChange-=pTimeElapsed;
+        if(cursorFrameChange<=0){
+            if(curCount==4){
+                curCount=0;
+            }else{
+                curCount++;
+            }
+            frame.setCursor(c[curCount]);
+            cursorFrameChange +=675.0;
         }
     }
 
