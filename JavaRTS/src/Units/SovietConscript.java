@@ -85,7 +85,13 @@ public class SovietConscript extends Unit {
             }
         } else {
             curImageY = 2;
-            //angle-=(t/1000*0.5)/16.0*2*Math.PI;
+            if(angle!=0){
+                if(angle<=Math.PI*2/64){
+                    angle=0;
+                }else{
+                    angle-=(t/1000*0.25)*Math.PI*2;
+                }
+            }
         }
 
         super.move(t);
