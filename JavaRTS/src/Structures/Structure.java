@@ -6,7 +6,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
-public class Structure implements Controllable {
+public abstract class Structure implements Controllable {
 
     static boolean shift;
     double xPos, yPos, angle;
@@ -31,6 +31,14 @@ public class Structure implements Controllable {
         return area.contains(p);
     }
 
+    public Polygon getShape(){
+        return area;
+    }
+    
+    public abstract void update(double time);
+    
+    public abstract void draw(Graphics g);
+    
     @Override
     public void passInMouseClickedEvent(MouseEvent e) {
 
