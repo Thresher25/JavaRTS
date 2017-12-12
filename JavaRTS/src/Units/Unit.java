@@ -8,7 +8,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-public class Unit implements Controllable {
+public abstract class Unit implements Controllable {
 
     static boolean shift;
     double xPos, yPos, angle, maxVelocity;
@@ -76,13 +76,9 @@ public class Unit implements Controllable {
         return clickArea.contains(p);
     }
 
-    public void update(double time) {
-
-    }
+    public abstract void update(double time);
     
-    public void draw(Graphics g){
-        
-    }
+    public abstract void draw(Graphics g);
 
     public void move(double time) {
         if (moving) {
