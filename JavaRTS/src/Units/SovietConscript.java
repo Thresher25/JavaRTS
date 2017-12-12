@@ -63,8 +63,8 @@ public class SovietConscript extends Unit {
         focused = false;
     }
 
+    @Override
     public void update(double t) {//where t is time in milliseconds
-        super.update(t);
         timePassed += t;
         moveToFocus();
         /*angle+=(t/1000*0.3)/16.0*2*Math.PI;
@@ -165,6 +165,7 @@ public class SovietConscript extends Unit {
 
     }
 
+    @Override
     public void draw(Graphics g) {
             g.drawImage(image[curImageX][curImageY], (int) xPos - image[curImageX][curImageY].getWidth() / 2, (int) yPos - image[curImageX][curImageY].getHeight() / 2, null);
     }
