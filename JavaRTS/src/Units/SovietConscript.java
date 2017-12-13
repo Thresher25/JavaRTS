@@ -84,11 +84,22 @@ public class SovietConscript extends Unit {
             }
         } else {
             curImageY = 2;
-            if(angle!=0){
-                if(angle<=Math.PI*2/64){
-                    angle=0;
-                }else{
-                    angle-=(t/1000*0.25)*Math.PI*2;
+            if (angle != Math.PI * 3 / 2) {
+                if (angle > Math.PI * 3 / 2 || angle<=Math.PI/2) {
+                    if (angle < Math.PI * 3 / 2 + Math.PI / 64) {
+                        angle = Math.PI * 3 / 2;
+                    } else {
+                        angle -= (t / 1000 * 0.25) * Math.PI * 2;
+                    }
+                } else {
+                    if (angle > Math.PI * 3 / 2 - Math.PI / 64) {
+                        angle = Math.PI * 3 / 2;
+                    } else {
+                        angle += (t / 1000 * 0.25) * Math.PI * 2;
+                    }
+                }
+                if (angle < 0) {
+                    angle += 2 * Math.PI;
                 }
             }
         }
@@ -97,23 +108,23 @@ public class SovietConscript extends Unit {
     }
 
     public void moveToFocus() {
-        if (focusPoints.size()>0) {
+        if (focusPoints.size() > 0) {
             if (-1 <= (xPos - focusPoints.get(0).x) && (xPos - focusPoints.get(0).x) <= 1 && -1 <= (yPos - focusPoints.get(0).y) && (yPos - focusPoints.get(0).y) <= 1) {
                 xPos = focusPoints.get(0).x;
                 yPos = focusPoints.get(0).y;
-                    focusPoints.remove(0);
-                    if(focusPoints.size()<=0){
-                        moving=false;
-                    }
+                focusPoints.remove((int)0);
+                if (focusPoints.size() <= 0) {
+                    moving = false;
+                }
             } else {
                 calcAngle(focusPoints.get(0).x, focusPoints.get(0).y);
                 moving = true;
             }
         }
     }
-    
-    public void addFocusPoint(int x, int y){
-        focusPoints.add(new Point(x,y));
+
+    public void addFocusPoint(int x, int y) {
+        focusPoints.add(new Point(x, y));
     }
 
     public void calcAngle(int x, int y) {
@@ -165,28 +176,29 @@ public class SovietConscript extends Unit {
         } else if (angle >= 15.5 / 16.0 * Math.PI * 2.0) {
             curImageX = 4;
         } else {
-            System.out.println("Angle problem b0ss");
+            System.out.println("This shouldn't happen");
         }
 
     }
 
     @Override
     public void draw(Graphics g) {
-            g.drawImage(image[curImageX][curImageY], (int) xPos - image[curImageX][curImageY].getWidth() / 2, (int) yPos - image[curImageX][curImageY].getHeight() / 2, null);
+        g.drawImage(image[curImageX][curImageY], (int) xPos - image[curImageX][curImageY].getWidth() / 2, (int) yPos - image[curImageX][curImageY].getHeight() / 2, null);
     }
-    
-    public int getCurImageX(){
+
+    public int getCurImageX() {
         return curImageX;
     }
-    public int getCurImageY(){
+
+    public int getCurImageY() {
         return curImageY;
     }
-    
-    public void setCurImageX(int num){
+
+    public void setCurImageX(int num) {
         this.curImageX = num;
     }
-    
-    public void setCurImageY(int num){
+
+    public void setCurImageY(int num) {
         this.curImageY = num;
     }
 
