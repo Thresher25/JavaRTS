@@ -1,6 +1,7 @@
 package main;
 
 
+import Structures.Barracks;
 import Structures.CommandCentre;
 import Tiles.TileMap;
 import Units.Formation;
@@ -28,7 +29,7 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
     public ArrayList<Unit> focusedUnits = new ArrayList<Unit>();
     boolean shift = false;
     boolean mousePressed = false;
-    public ArrayList<Unit> focusables = new ArrayList<Unit>();
+    public static ArrayList<Unit> focusables = new ArrayList<Unit>();
     public JFrame frame;
     public TileMap gameMap;
     public double cursorFrameChange = 1250.0;
@@ -36,6 +37,7 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
     //public Rectangle selectedArea = new Rectangle();
     public Point topLeft, bottomRight;
     CommandCentre com = new CommandCentre(700, 350);
+    Barracks bar = new Barracks(800, 600);
 
     public MainClass() {
         focusables.add(new SovietConscript(500, 500));
@@ -116,6 +118,7 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
             focusables.get(i).update(pTimeElapsed);
         }
         com.update(pTimeElapsed);
+        bar.update(pTimeElapsed);
         cursorFrameChange-=pTimeElapsed;
         if(cursorFrameChange<=0){
             if(curCount==4){
@@ -139,6 +142,7 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
             focusables.get(i).draw(g);
         }
         com.draw(g);
+        bar.draw(g);
         if (mousePressed) {
             g.setColor(Color.BLACK);
             g.drawLine(topLeft.x, topLeft.y, getMousePosition().x, topLeft.y);

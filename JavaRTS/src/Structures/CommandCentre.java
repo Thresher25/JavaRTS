@@ -36,7 +36,7 @@ public class CommandCentre extends Structure {
     @Override
     public void update(double time) {
         timePassed += time;
-        if (timePassed > (5.25 / 1 * 1000)) {
+        if (timePassed > (2.25 / 1 * 1000)) {
             if (curImage >= 5) {
                 curImage = 0;
             } else {

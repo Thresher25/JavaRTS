@@ -78,7 +78,7 @@ public class SovietConscript extends Unit {
                 } else {
                     curImageY++;
                 }
-                timePassed -= (1.0 / 2.0 * 1000);
+                timePassed = 0;
             } else {
 
             }
