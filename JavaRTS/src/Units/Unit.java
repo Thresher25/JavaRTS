@@ -14,6 +14,7 @@ public abstract class Unit implements Controllable {
     double xPos, yPos, angle, maxVelocity;
     int spaceUnits;//the smallest square with sidelength n(units) which contains the moveable unit (this is for formations)
     public static final int UNIT = 15;//a unit is 15 pixels;
+    double timePassed;
     boolean moving;
     boolean inFormation = false;
     Polygon area, clickArea;

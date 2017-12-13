@@ -1,22 +1,22 @@
 package main;
 
 
+import Structures.CommandCentre;
 import Tiles.TileMap;
 import Units.Formation;
 import Units.SovietConscript;
 import Units.Unit;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import javax.imageio.ImageIO;
 
 public class MainClass extends JPanel implements KeyListener, MouseListener {
 
@@ -31,10 +31,11 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
     public ArrayList<Unit> focusables = new ArrayList<Unit>();
     public JFrame frame;
     public TileMap gameMap;
-    public double cursorFrameChange = 675.0;
+    public double cursorFrameChange = 1250.0;
     public Cursor[] c = new Cursor[5];
     //public Rectangle selectedArea = new Rectangle();
     public Point topLeft, bottomRight;
+    CommandCentre com = new CommandCentre(700, 350);
 
     public MainClass() {
         focusables.add(new SovietConscript(500, 500));
@@ -114,6 +115,7 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
         for(int i=0;i<focusables.size();i++){
             focusables.get(i).update(pTimeElapsed);
         }
+        com.update(pTimeElapsed);
         cursorFrameChange-=pTimeElapsed;
         if(cursorFrameChange<=0){
             if(curCount==4){
@@ -122,7 +124,7 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
                 curCount++;
             }
             frame.setCursor(c[curCount]);
-            cursorFrameChange +=675.0;
+            cursorFrameChange += 1250.0;
         }
     }
 
@@ -136,6 +138,7 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
         for(int i=0;i<focusables.size();i++){
             focusables.get(i).draw(g);
         }
+        com.draw(g);
         if (mousePressed) {
             g.setColor(Color.BLACK);
             g.drawLine(topLeft.x, topLeft.y, getMousePosition().x, topLeft.y);

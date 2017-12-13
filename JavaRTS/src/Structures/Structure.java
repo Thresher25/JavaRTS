@@ -9,21 +9,20 @@ import java.awt.event.MouseEvent;
 public abstract class Structure implements Controllable {
 
     static boolean shift;
-    double xPos, yPos, angle;
+    double xPos, yPos;
     boolean moving;
     Polygon area;
+    double timePassed;
 
     public Structure() {
         xPos = 0;
         yPos = 0;
-        angle = 0;
         shift = false;
     }
 
     public Structure(double x, double y) {
         xPos = x;
         yPos = y;
-        angle = 0;
         shift = false;
     }
 
@@ -66,7 +65,9 @@ public abstract class Structure implements Controllable {
 
     @Override
     public void passInKeyboardPressed(KeyEvent e) {
-
+        if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
+            shift = true;
+        }
     }
 
     @Override
@@ -76,6 +77,8 @@ public abstract class Structure implements Controllable {
 
     @Override
     public void passInKeyboardReleased(KeyEvent e) {
-
+        if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
+            shift = false;
+        }
     }
 }

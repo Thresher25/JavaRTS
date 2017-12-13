@@ -14,7 +14,6 @@ public class SovietConscript extends Unit {
     private static BufferedImage[][] image = new BufferedImage[17][8];
     private int curImageX, curImageY;
     //Possibly add either an AI state, or add an AI class to each unit
-    private double timePassed;
     private boolean focused;
     private static String filePath = "res/CivSprite.png";
 
