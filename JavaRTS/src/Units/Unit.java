@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Vector;
 
 public abstract class Unit implements Controllable {
 
@@ -19,7 +20,7 @@ public abstract class Unit implements Controllable {
     boolean inFormation = false;
     Polygon area, clickArea;
     Point2D formationOffset = new Point2D(0, 0);
-    ArrayList<Point> focusPoints = new ArrayList<Point>();
+    Vector<Point> focusPoints = new Vector<Point>();
 
     public Unit() {
         xPos = 0;
