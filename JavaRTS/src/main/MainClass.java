@@ -18,6 +18,7 @@ import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Vector;
 
 public class MainClass extends JPanel implements KeyListener, MouseListener {
 
@@ -26,10 +27,10 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
     boolean quit = false;
     public int curCount = 0;
     //public Controllable focus = null;
-    public ArrayList<Unit> focusedUnits = new ArrayList<Unit>();
+    public Vector<Unit> focusedUnits = new Vector<Unit>();
     boolean shift = false;
     boolean mousePressed = false;
-    public static ArrayList<Unit> focusables = new ArrayList<Unit>();
+    public static Vector<Unit> focusables = new Vector<Unit>();
     public JFrame frame;
     public TileMap gameMap;
     public double cursorFrameChange = 1250.0;
