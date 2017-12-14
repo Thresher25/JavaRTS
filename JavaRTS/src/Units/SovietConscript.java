@@ -107,12 +107,12 @@ public class SovietConscript extends Unit {
         super.move(t);
     }
 
-    public void moveToFocus() {
+    public void moveToFocus() throws ArrayIndexOutOfBoundsException {
         if (focusPoints.size() > 0) {
             if (-1 <= (xPos - focusPoints.get(0).x) && (xPos - focusPoints.get(0).x) <= 1 && -1 <= (yPos - focusPoints.get(0).y) && (yPos - focusPoints.get(0).y) <= 1) {
                 xPos = focusPoints.get(0).x;
                 yPos = focusPoints.get(0).y;
-                focusPoints.remove((int)0);
+                focusPoints.remove(0);
                 if (focusPoints.size() <= 0) {
                     moving = false;
                 }

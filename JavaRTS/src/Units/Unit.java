@@ -1,41 +1,32 @@
 package Units;
 
 import javafx.geometry.Point2D;
-import main.Controllable;
+import main.GameObject;
 
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 import java.util.Vector;
 
-public abstract class Unit implements Controllable {
+public abstract class Unit extends GameObject {
 
-    static boolean shift;
-    double xPos, yPos, angle, maxVelocity;
+    double angle, maxVelocity;
     int spaceUnits;//the smallest square with sidelength n(units) which contains the moveable unit (this is for formations)
     public static final int UNIT = 15;//a unit is 15 pixels;
-    double timePassed;
     boolean moving;
     boolean inFormation = false;
-    Polygon area, clickArea;
+    Polygon clickArea;
     Point2D formationOffset = new Point2D(0, 0);
     Vector<Point> focusPoints = new Vector<Point>();
 
     public Unit() {
-        xPos = 0;
-        yPos = 0;
+        super();
         angle = 0;
         moving = false;
-        shift = false;
     }
 
     public Unit(double x, double y) {
-        xPos = x;
-        yPos = y;
+        super(x, y);
         angle = 0;
         moving = false;
-        shift = false;
     }
 
     public Point2D getFormationOffset() {
@@ -58,10 +49,6 @@ public abstract class Unit implements Controllable {
         return spaceUnits*UNIT;
     }
     
-    public Polygon getShape(){
-        return area;
-    }
-    
     public Point getFocusPoint(){
         if(focusPoints.size()==0){
             return new Point(10000,10000);
@@ -74,27 +61,16 @@ public abstract class Unit implements Controllable {
         focusPoints.add(new Point(x, y));
     }
 
+    @Override
     public boolean isInArea(Point p) {
         return clickArea.contains(p);
     }
-
-    public abstract void update(double time);
-    
-    public abstract void draw(Graphics g);
 
     public void move(double time) {
         if (moving) {
             xPos += (time / 1000) * maxVelocity * Math.cos(angle);
             yPos += (time / 1000) * maxVelocity * Math.sin(angle);
         }
-    }
-
-    public double getXPos() {
-        return xPos;
-    }
-
-    public double getYPos() {
-        return yPos;
     }
 
     public double getAngle() {
@@ -105,47 +81,4 @@ public abstract class Unit implements Controllable {
         return maxVelocity;
     }
 
-    @Override
-    public void passInMouseClickedEvent(MouseEvent e) {
-
-    }
-
-    @Override
-    public void passInMousePressedEvent(MouseEvent e) {
-
-    }
-
-    @Override
-    public void passInMouseReleasedEvent(MouseEvent e) {
-
-    }
-
-    @Override
-    public void passInMouseEnteredEvent(MouseEvent e) {
-
-    }
-
-    @Override
-    public void passInMouseExitedEvent(MouseEvent e) {
-
-    }
-
-    @Override
-    public void passInKeyboardPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
-            shift = true;
-        }
-    }
-
-    @Override
-    public void passInKeyboardTyped(KeyEvent e) {
-
-    }
-
-    @Override
-    public void passInKeyboardReleased(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
-            shift = false;
-        }
-    }
 }

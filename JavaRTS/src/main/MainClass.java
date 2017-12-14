@@ -30,7 +30,7 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
     public Vector<Unit> focusedUnits = new Vector<Unit>();
     boolean shift = false;
     boolean mousePressed = false;
-    public static Vector<Unit> focusables = new Vector<Unit>();
+    public static Vector<GameObject> focusables = new Vector<GameObject>();
     public JFrame frame;
     public TileMap gameMap;
     public double cursorFrameChange = 1250.0;

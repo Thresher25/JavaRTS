@@ -5,18 +5,18 @@ import main.Controllable;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
+import java.util.Vector;
 
 public class Formation implements Controllable {
 
-    private ArrayList<Unit> units = new ArrayList<Unit>();
+    private Vector<Unit> units = new Vector<Unit>();
     private Unit leader;
 
     public Formation() {
 
     }
 
-    public Formation(ArrayList<Unit> units) {
+    public Formation(Vector<Unit> units) {
         this.units = units;
         this.leader = units.get(0);
         setVectors();
