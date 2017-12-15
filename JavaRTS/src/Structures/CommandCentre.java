@@ -10,8 +10,7 @@ public class CommandCentre extends Structure {
 
     private static BufferedImage[] image = new BufferedImage[6];
     private static String filePath = "res/PATHHERE.png";
-    private int curImage = 0;
-
+    
     public CommandCentre() {
         super();
 
@@ -19,6 +18,9 @@ public class CommandCentre extends Structure {
 
     public CommandCentre(double x, double y) {
         super(x, y);
+        HP = 1;
+        hpPerStage = 500;
+        stages = 5;
         int[] xPoints2 = {-63, -33, -12, 5, 21, 42, 44, 56, 64, -28, -63};
         int[] yPoints2 = {-6, -32, -43, -52, -46, -32, -25, -17, 30, 47, 8};
         area = new Polygon(xPoints2, yPoints2, 11);
@@ -38,15 +40,16 @@ public class CommandCentre extends Structure {
 
     @Override
     public void update(double time) {
-        timePassed += time;
-        if (timePassed > (2.25 / 1 * 1000)) {
-            if (curImage >= 5) {
-                curImage = 0;
-            } else {
-                curImage++;
-            }
-            timePassed = 0;
-        }
+        super.update(time);
+//        timePassed += time;
+//        if (timePassed > (2.25 / 1 * 1000)) {
+//            if (curImage >= 5) {
+//                curImage = 0;
+//            } else {
+//                curImage++;
+//            }
+//            timePassed = 0;
+//        }
 
     }
 
