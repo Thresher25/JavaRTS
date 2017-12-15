@@ -60,16 +60,11 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
         frame.addKeyListener(this);
         try{
             Toolkit toolkit = Toolkit.getDefaultToolkit();
-            c[0] = toolkit.createCustomCursor(ImageIO.read(new File("res/cur1.png")) , new Point(frame.getX()+15, 
-           frame.getY()+13), "CF1");
-            c[1] = toolkit.createCustomCursor(ImageIO.read(new File("res/cur2.png")) , new Point(frame.getX()+15, 
-           frame.getY()+13), "CF2");
-            c[2] = toolkit.createCustomCursor(ImageIO.read(new File("res/cur3.png")) , new Point(frame.getX()+15, 
-           frame.getY()+13), "CF3");
-            c[3] = toolkit.createCustomCursor(ImageIO.read(new File("res/cur4.png")) , new Point(frame.getX()+15, 
-           frame.getY()+13), "CF4");
-            c[4] = toolkit.createCustomCursor(ImageIO.read(new File("res/cur5.png")) , new Point(frame.getX()+15, 
-           frame.getY()+13), "CF5");
+            c[0] = toolkit.createCustomCursor(ImageIO.read(new File("res/cur1.png")), new Point(frame.getX(), frame.getY()), "CF1");
+            c[1] = toolkit.createCustomCursor(ImageIO.read(new File("res/cur2.png")), new Point(frame.getX(), frame.getY()), "CF2");
+            c[2] = toolkit.createCustomCursor(ImageIO.read(new File("res/cur3.png")), new Point(frame.getX(), frame.getY()), "CF3");
+            c[3] = toolkit.createCustomCursor(ImageIO.read(new File("res/cur4.png")), new Point(frame.getX(), frame.getY()), "CF4");
+            c[4] = toolkit.createCustomCursor(ImageIO.read(new File("res/cur5.png")), new Point(frame.getX(), frame.getY()), "CF5");
             frame.setCursor(c[0]);
         }catch(IOException e){
                 e.printStackTrace();
