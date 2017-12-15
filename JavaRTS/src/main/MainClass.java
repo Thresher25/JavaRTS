@@ -193,6 +193,21 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
             bottomRight = e.getPoint();
             boolean changeInFocus = false;
             focusedUnits.clear();
+            Point tempTL = new Point(topLeft);
+            Point tempBR = new Point(bottomRight);
+            if(topLeft.x>bottomRight.x){
+                if(bottomRight.y<topLeft.y){
+                    topLeft = new Point(tempBR.x, tempBR.y);
+                    bottomRight = new Point(tempTL.x, tempTL.y);
+                }else{
+                    topLeft = new Point(tempBR.x, tempTL.y);
+                    bottomRight = new Point(tempTL.x, tempBR.y);
+                }
+            }else if(bottomRight.y<topLeft.y){
+                topLeft = new Point(tempTL.x, tempBR.y);
+                bottomRight = new Point(tempBR.x, tempTL.y);
+            }
+            
             for(int i=0;i<focusables.size();i++){
                 if (focusables.get(i).getShape().intersects(topLeft.x - focusables.get(i).getXPos(), topLeft.y - focusables.get(i).getYPos(), bottomRight.x - topLeft.x, bottomRight.y - topLeft.y) && focusables.get(i).isUnit()) {
                     if (!changeInFocus) {
