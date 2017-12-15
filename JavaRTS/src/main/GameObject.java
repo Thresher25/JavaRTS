@@ -9,6 +9,7 @@ public abstract class GameObject implements Controllable {
     protected static boolean shift;
     protected double xPos, yPos;
     protected Polygon area;
+    protected float HP;
     protected double timePassed;
 
     public GameObject() {
@@ -23,6 +24,18 @@ public abstract class GameObject implements Controllable {
 
     public boolean isUnit() {
         return false;
+    }
+    
+    public float getHP(){
+        return HP;
+    }
+    
+    public void addHP(float hp){
+        HP+=hp;
+    }
+    
+    public void removeHP(float hp){
+        HP-=hp;
     }
 
     public double getXPos() {
