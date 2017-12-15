@@ -13,7 +13,6 @@ public class Barracks extends Structure {
 
     private static BufferedImage[] image = new BufferedImage[7];
     private static String filePath = "res/PATHHERE.png";
-    private int curImage = 0;
     private int spawnTimer = 0;
 
     public Barracks() {
@@ -22,6 +21,9 @@ public class Barracks extends Structure {
 
     public Barracks(double x, double y) {
         super(x, y);
+        HP = 1;
+        hpPerStage = 500;
+        stages = 6;
         int[] xPoints2 = {-62, -16, 52, 62, 35, -29};
         int[] yPoints2 = {18, -54, -29, 25, 53, 50};
         area = new Polygon(xPoints2, yPoints2, 6);
@@ -44,7 +46,8 @@ public class Barracks extends Structure {
 
     @Override
     public void update(double time) {
-        timePassed += time;
+        super.update(time);
+//        timePassed += time;
         spawnTimer += time;
         if (spawnTimer >= 10 / 1 * 1000) {
             spawnTimer = 0;
@@ -52,14 +55,14 @@ public class Barracks extends Structure {
             sov.setFocusPoint((int) (Math.random() * 1000 + 10), (int) (Math.random() * 1000 + 10));
             MainClass.focusables.add(sov);
         }
-        if (timePassed > (2.25 / 1 * 1000)) {
-            if (curImage >= 6) {
-                curImage = 0;
-            } else {
-                curImage++;
-            }
-            timePassed = 0;
-        }
+//        if (timePassed > (2.25 / 1 * 1000)) {
+//            if (curImage >= 6) {
+//                curImage = 0;
+//            } else {
+//                curImage++;
+//            }
+//            timePassed = 0;
+//        }
     }
 
     @Override
