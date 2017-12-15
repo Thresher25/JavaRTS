@@ -86,13 +86,13 @@ public class SovietConscript extends Unit {
             curImageY = 2;
             if (angle != Math.PI * 3 / 2) {
                 if (angle > Math.PI * 3 / 2 || angle<=Math.PI/2) {
-                    if (angle < Math.PI * 3 / 2 + Math.PI / 64) {
+                    if (angle < Math.PI * 3 / 2 + Math.PI / 64 && angle > Math.PI * 3 / 2) {
                         angle = Math.PI * 3 / 2;
                     } else {
                         angle -= (t / 1000 * 0.25) * Math.PI * 2;
                     }
                 } else {
-                    if (angle > Math.PI * 3 / 2 - Math.PI / 64) {
+                    if (angle > Math.PI * 3 / 2 - Math.PI / 64 && angle < Math.PI * 3 / 2) {
                         angle = Math.PI * 3 / 2;
                     } else {
                         angle += (t / 1000 * 0.25) * Math.PI * 2;
