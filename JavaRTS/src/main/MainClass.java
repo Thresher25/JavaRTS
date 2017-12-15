@@ -16,7 +16,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Vector;
 
 public class MainClass extends JPanel implements KeyListener, MouseListener {
@@ -25,13 +24,15 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
     public static final int SCREENHEIGHT = 1080;
     boolean quit = false;
     public int curCount = 0;
-    //public Controllable focus = null;
     public Vector<Unit> focusedUnits = new Vector<Unit>();
     boolean shift = false;
+    public Formation formUnits = new Formation();
     boolean mousePressed = false;
     public static Vector<GameObject> focusables = new Vector<GameObject>();
     public JFrame frame;
     public TileMap gameMap;
+    boolean shouldMoveUnits = false;
+    Point movePoint = new Point();
     public double cursorFrameChange = 1250.0;
     public Cursor[] c = new Cursor[5];
     //public Rectangle selectedArea = new Rectangle();
@@ -106,6 +107,10 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
     }
 
     public void update(double pTimeElapsed) {
+        if (shouldMoveUnits) {
+            shouldMoveUnits = false;
+            formUnits.moveToLocation(movePoint);
+        }
         for(int i=0;i<focusables.size();i++){
             focusables.get(i).update(pTimeElapsed);
         }
@@ -186,13 +191,8 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
     @Override
     public void mouseReleased(MouseEvent e) {
         if(e.getButton()==MouseEvent.BUTTON3){
-            if (focusedUnits.size() > 0) {
-                for (int i = 0; i < focusedUnits.size(); i++) {
-                    //focusedUnits.get(i).passInMouseReleasedEvent(e);
-                    //moveFormation(focusedUnits, e.getPoint());
-                    new Formation(focusedUnits).moveToLocation(e.getPoint());//TODO fix this, could be more elegant
-                }
-            }
+            shouldMoveUnits = true;
+            movePoint = e.getPoint();
         }else if(e.getButton()==MouseEvent.BUTTON1){
             mousePressed = false;
             bottomRight = e.getPoint();
@@ -213,18 +213,7 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
                     focusedUnits.add((Unit) focusables.get(i));
                 } 
             }
-            
-        }
-    }
-    
-    public void moveFormation(ArrayList<Unit> u, Point p){
-        boolean place = true;
-        for(int l=0;l<u.size();l++){
-            if(l==0){
-                u.get(l).setFocusPoint(p.x, p.y);
-            }else{
-                u.get(l).setFocusPoint(p.x+u.get(l).getSpaceUnits()*l, p.y);
-            }
+            formUnits.setUnits(focusedUnits);
         }
     }
 

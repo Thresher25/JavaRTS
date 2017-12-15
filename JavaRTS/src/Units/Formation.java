@@ -18,7 +18,6 @@ public class Formation implements Controllable {
 
     public Formation(Vector<Unit> units) {
         this.units = units;
-        this.leader = units.get(0);
         setVectors();
     }
 
@@ -34,6 +33,7 @@ public class Formation implements Controllable {
 
             if (i == 0) {
                 units.get(i).setFormationOffset(x, y);
+                this.leader = units.get(i);
             } else {
                 if (direction == 0) {
                     y++;
@@ -72,6 +72,21 @@ public class Formation implements Controllable {
         for (int i = 0; i < units.size(); i++) {
             units.get(i).setFocusPoint((int) (p.getX() + units.get(i).formationOffset.getX() * Unit.UNIT), (int) (p.getY() + units.get(i).formationOffset.getY() * Unit.UNIT));
         }
+    }
+
+    public void setUnits(Vector<Unit> u) {
+        this.units = u;
+        setVectors();
+    }
+
+    public void removeUnits(Vector<Unit> u) {
+        units.removeAll(u);
+        setVectors();
+    }
+
+    public void addUnits(Vector<Unit> u) {
+        units.addAll(u);
+        setVectors();
     }
 
     @Override
