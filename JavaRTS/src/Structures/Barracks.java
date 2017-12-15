@@ -22,6 +22,9 @@ public class Barracks extends Structure {
 
     public Barracks(double x, double y) {
         super(x, y);
+        int[] xPoints2 = {-62, -16, 52, 62, 35, -29};
+        int[] yPoints2 = {18, -54, -29, 25, 53, 50};
+        area = new Polygon(xPoints2, yPoints2, 6);
         try {
             //image[0] = ImageIO.read(new File("res/BuildingsSprite.png")).getSubimage(0, 108, 96, 108);
             //image[1] = ImageIO.read(new File("res/BuildingsSprite.png")).getSubimage(96, 108, 96, 108);

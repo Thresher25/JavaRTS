@@ -19,6 +19,9 @@ public class CommandCentre extends Structure {
 
     public CommandCentre(double x, double y) {
         super(x, y);
+        int[] xPoints2 = {-63, -33, -12, 5, 21, 42, 44, 56, 64, -28, -63};
+        int[] yPoints2 = {-6, -32, -43, -52, -46, -32, -25, -17, 30, 47, 8};
+        area = new Polygon(xPoints2, yPoints2, 11);
         try {
             image[0] = ImageIO.read(new File("res/BuildingsSprite.png")).getSubimage(0, 0, 107, 117);
             image[1] = ImageIO.read(new File("res/BuildingsSprite.png")).getSubimage(107, 0, 107, 117);

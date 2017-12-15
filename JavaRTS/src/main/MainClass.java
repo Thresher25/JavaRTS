@@ -5,7 +5,6 @@ import Structures.Barracks;
 import Structures.CommandCentre;
 import Tiles.TileMap;
 import Units.Formation;
-import Units.SovietConscript;
 import Units.Unit;
 
 import javax.imageio.ImageIO;
@@ -37,18 +36,10 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
     public Cursor[] c = new Cursor[5];
     //public Rectangle selectedArea = new Rectangle();
     public Point topLeft, bottomRight;
-    CommandCentre com = new CommandCentre(700, 350);
-    Barracks bar = new Barracks(800, 600);
 
     public MainClass() {
-        focusables.add(new SovietConscript(500, 500));
-        focusables.add(new SovietConscript(400, 400));
-        focusables.add(new SovietConscript(300, 300));
-        focusables.add(new SovietConscript(200, 200));
-        focusables.add(new SovietConscript(100, 100));
-        focusables.add(new SovietConscript(600, 600));
-        focusables.add(new SovietConscript(700, 700));
-        focusables.add(new SovietConscript(800, 800));
+        focusables.add(new Barracks(800, 600));
+        focusables.add(new CommandCentre(700, 350));
 
         try {
             gameMap = new TileMap("res/DefaultMap.txt");
@@ -118,8 +109,7 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
         for(int i=0;i<focusables.size();i++){
             focusables.get(i).update(pTimeElapsed);
         }
-        com.update(pTimeElapsed);
-        bar.update(pTimeElapsed);
+
         cursorFrameChange-=pTimeElapsed;
         if(cursorFrameChange<=0){
             if(curCount==4){
@@ -142,8 +132,7 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
         for(int i=0;i<focusables.size();i++){
             focusables.get(i).draw(g);
         }
-        com.draw(g);
-        bar.draw(g);
+
         if (mousePressed) {
             g.setColor(Color.BLACK);
             g.drawLine(topLeft.x, topLeft.y, getMousePosition().x, topLeft.y);
@@ -210,18 +199,18 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
             boolean changeInFocus = false;
             focusedUnits.clear();
             for(int i=0;i<focusables.size();i++){
-                if (focusables.get(i).getShape().intersects(topLeft.x - focusables.get(i).getXPos(), topLeft.y - focusables.get(i).getYPos(), bottomRight.x - topLeft.x, bottomRight.y - topLeft.y)) {
+                if (focusables.get(i).getShape().intersects(topLeft.x - focusables.get(i).getXPos(), topLeft.y - focusables.get(i).getYPos(), bottomRight.x - topLeft.x, bottomRight.y - topLeft.y) && focusables.get(i).isUnit()) {
                     if (!changeInFocus) {
                         changeInFocus = true;
                     }
-                    focusedUnits.add(focusables.get(i));
+                    focusedUnits.add((Unit) focusables.get(i));
                 }
             }
             
             for(int i=0;i<focusables.size();i++){
-                if (focusables.get(i).isInArea(new Point(e.getX() - (int) focusables.get(i).getXPos(), e.getY() - (int) focusables.get(i).getYPos())) && !changeInFocus) {
+                if (focusables.get(i).isInArea(new Point(e.getX() - (int) focusables.get(i).getXPos(), e.getY() - (int) focusables.get(i).getYPos())) && !changeInFocus && focusables.get(i).isUnit()) {
                     focusedUnits.clear();
-                    focusedUnits.add(focusables.get(i));
+                    focusedUnits.add((Unit) focusables.get(i));
                 } 
             }
             

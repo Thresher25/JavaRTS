@@ -33,6 +33,11 @@ public abstract class Unit extends GameObject {
         return formationOffset;
     }
 
+    @Override
+    public boolean isUnit() {
+        return true;
+    }
+
     public void setFormationOffset(double x, double y) {
         formationOffset = new Point2D(x, y);
     }
