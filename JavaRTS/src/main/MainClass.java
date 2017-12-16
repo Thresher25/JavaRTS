@@ -1,6 +1,8 @@
 package main;
 
 
+import NaturalResources.Mineral;
+import NaturalResources.Vespene;
 import Structures.Barracks;
 import Structures.CommandCentre;
 import Tiles.TileMap;
@@ -41,6 +43,12 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
     public MainClass() {
         focusables.add(new Barracks(800, 600));
         focusables.add(new CommandCentre(700, 350));
+        focusables.add(new Mineral(1200, 225));
+        focusables.add(new Mineral(1270, 200));
+        focusables.add(new Mineral(1320, 250));
+        focusables.add(new Vespene(1380, 550));
+        focusables.add(new Vespene(1470, 500));
+        focusables.add(new Vespene(1525, 570));
 
         try {
             gameMap = new TileMap("res/DefaultMap.txt");
