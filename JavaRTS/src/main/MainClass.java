@@ -7,6 +7,7 @@ import Structures.Barracks;
 import Structures.CommandCentre;
 import Tiles.TileMap;
 import Units.Formation;
+import Units.SCV;
 import Units.Unit;
 
 import javax.imageio.ImageIO;
@@ -49,6 +50,7 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
         focusables.add(new Vespene(1380, 550));
         focusables.add(new Vespene(1470, 500));
         focusables.add(new Vespene(1525, 570));
+        focusables.add(new SCV(1250, 750));
 
         try {
             gameMap = new TileMap("res/DefaultMap.txt");

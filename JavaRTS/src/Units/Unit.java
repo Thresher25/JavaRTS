@@ -66,6 +66,35 @@ public abstract class Unit extends GameObject {
         focusPoints.add(new Point(x, y));
     }
 
+    public void addFocusPoint(int x, int y) {
+        focusPoints.add(new Point(x, y));
+    }
+
+    public void calcAngle(int x, int y) {
+        double dx = (double) x - xPos;
+        double dy = -(yPos - (double) y);
+        angle = Math.atan2(dy, dx);
+        if (angle < 0) {
+            angle += 2 * Math.PI;
+        }
+    }
+
+    public void moveToFocus() throws ArrayIndexOutOfBoundsException {
+        if (focusPoints.size() > 0) {
+            if (-1 <= (xPos - focusPoints.get(0).x) && (xPos - focusPoints.get(0).x) <= 1 && -1 <= (yPos - focusPoints.get(0).y) && (yPos - focusPoints.get(0).y) <= 1) {
+                xPos = focusPoints.get(0).x;
+                yPos = focusPoints.get(0).y;
+                focusPoints.remove(0);
+                if (focusPoints.size() <= 0) {
+                    moving = false;
+                }
+            } else {
+                calcAngle(focusPoints.get(0).x, focusPoints.get(0).y);
+                moving = true;
+            }
+        }
+    }
+
     @Override
     public boolean isInArea(Point p) {
         return clickArea.contains(p);

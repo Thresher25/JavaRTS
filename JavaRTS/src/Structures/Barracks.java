@@ -1,6 +1,8 @@
 package Structures;
 
+import Units.SCV;
 import Units.SovietConscript;
+import Units.Unit;
 import main.MainClass;
 
 import javax.imageio.ImageIO;
@@ -51,18 +53,16 @@ public class Barracks extends Structure {
         spawnTimer += time;
         if (spawnTimer >= 10 / 1 * 1000) {
             spawnTimer = 0;
-            SovietConscript sov = new SovietConscript(xPos, yPos + 65);
+            Unit sov;
+            if (Math.random() > 0.5) {
+                sov = new SovietConscript(xPos, yPos + 65);
+            } else {
+                sov = new SCV(xPos, yPos + 65);
+            }
             sov.setFocusPoint((int) (Math.random() * 1000 + 10), (int) (Math.random() * 1000 + 10));
             MainClass.focusables.add(sov);
         }
-//        if (timePassed > (2.25 / 1 * 1000)) {
-//            if (curImage >= 6) {
-//                curImage = 0;
-//            } else {
-//                curImage++;
-//            }
-//            timePassed = 0;
-//        }
+
     }
 
     @Override

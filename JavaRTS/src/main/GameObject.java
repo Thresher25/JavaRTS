@@ -10,7 +10,7 @@ public abstract class GameObject implements Controllable {
     protected double xPos, yPos;
     protected Polygon area;
     protected float HP;
-    protected double timePassed;
+    protected double timePassed = 0;
 
     public GameObject() {
         xPos = 0;
