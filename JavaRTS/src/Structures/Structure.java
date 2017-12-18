@@ -27,5 +27,10 @@ public abstract class Structure extends GameObject {
             curImage = (int)(HP/hpPerStage);
         }
     }
+    
+    @Override
+    public boolean isWorkable(){
+        return true;
+    }
 
 }
