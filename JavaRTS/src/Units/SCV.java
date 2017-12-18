@@ -13,6 +13,7 @@ public class SCV extends Unit {
     private static BufferedImage[][] image = new BufferedImage[16][2];
     private static String filePath = "res/SCV.png";
     private int curImageX, curImageY;
+    private boolean working = false;
 
     public SCV() {
         super();
@@ -64,11 +65,22 @@ public class SCV extends Unit {
     }
 
     @Override
+    public void setFocusPoint(int x, int y) {
+        super.setFocusPoint(x, y);
+        working = false;
+        curImageY = 0;
+    }
+    
+    @Override
     public void update(double time) {
         moveToFocus();
         calcCurImage();
         if (!moving) {
-            curImageY = 0;
+            if(working){
+                curImageY = 1;
+            }else{
+                curImageY = 0;
+            }
             if (angle != Math.PI * 3 / 2) {
                 if (angle > Math.PI * 3 / 2 || angle <= Math.PI / 2) {
                     if (angle < Math.PI * 3 / 2 + Math.PI / 64 && angle > Math.PI * 3 / 2) {
@@ -135,5 +147,14 @@ public class SCV extends Unit {
     @Override
     public void draw(Graphics g) {
         g.drawImage(image[curImageX][curImageY], (int) xPos - image[curImageX][curImageY].getWidth() / 2, (int) yPos - image[curImageX][curImageY].getHeight() / 2, null);
+    }
+
+    @Override
+    public String getUnitType() {
+        return "SCV";
+    }
+    
+    public void setWorkable(boolean b){
+        working = b;
     }
 }
