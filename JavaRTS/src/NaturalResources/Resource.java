@@ -25,4 +25,10 @@ public abstract class Resource extends GameObject {
     public void draw(Graphics g) {
 
     }
+    
+    @Override
+    public boolean isWorkable(){
+        return true;
+    }
+    
 }
