@@ -158,4 +158,9 @@ public class SovietConscript extends Unit {
         }
     }
 
+    @Override
+    public String getUnitType() {
+        return "Soviet";
+    }
+
 }
