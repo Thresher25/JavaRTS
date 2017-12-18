@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.Vector;
+import main.MainClass;
 
 public class Formation implements Controllable {
 
@@ -71,6 +72,18 @@ public class Formation implements Controllable {
     public void moveToLocation(Point p) {
         for (int i = 0; i < units.size(); i++) {
             units.get(i).setFocusPoint((int) (p.getX() + units.get(i).formationOffset.getX() * Unit.UNIT), (int) (p.getY() + units.get(i).formationOffset.getY() * Unit.UNIT));
+            if(units.get(i).getUnitType().equals("SCV")){
+                boolean workable = false;
+                for(int j=0;j<MainClass.focusables.size();j++){
+                    if(MainClass.focusables.get(j).isInArea(new Point((int)p.getX() - (int) MainClass.focusables.get(j).getXPos(), (int)p.getY() - (int) MainClass.focusables.get(j).getYPos())) && MainClass.focusables.get(j).isWorkable()){
+                        workable = true;
+                    }
+                }
+                if(workable){
+                    SCV temp = (SCV)units.get(i);
+                    temp.setWorkable(true);
+                }
+            }
         }
     }
 
