@@ -54,6 +54,8 @@ public abstract class Unit extends GameObject {
         return spaceUnits*UNIT;
     }
     
+    public abstract String getUnitType();
+    
     public Point getFocusPoint(){
         if(focusPoints.size()==0){
             return new Point(10000,10000);
