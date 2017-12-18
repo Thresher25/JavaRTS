@@ -21,6 +21,10 @@ public abstract class GameObject implements Controllable {
         xPos = x;
         yPos = y;
     }
+    
+    public boolean isWorkable(){
+        return false;
+    }
 
     public boolean isUnit() {
         return false;
