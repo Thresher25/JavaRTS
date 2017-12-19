@@ -33,4 +33,9 @@ public class Vespene extends Resource {
         g.drawImage(image, (int) xPos - image.getWidth() / 2, (int) yPos - image.getHeight() / 2, null);
     }
 
+    @Override
+    public String resourceType() {
+        return "Vespene";
+    }
+
 }

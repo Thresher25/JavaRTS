@@ -17,8 +17,8 @@ public class Mineral extends Resource {
 
     public Mineral(double x, double y) {
         super(x, y);
-        int[] xPoints = {-30, 30, 30, -30};
-        int[] yPoints = {-25, -25, 25, 25};
+        int[] xPoints = {-31, 31, 31, -31};
+        int[] yPoints = {-26, -26, 26, 26};
         area = new Polygon(xPoints, yPoints, 4);
         HP = 250;
         try {
@@ -31,6 +31,11 @@ public class Mineral extends Resource {
     @Override
     public void draw(Graphics g) {
         g.drawImage(image, (int) xPos - image.getWidth() / 2, (int) yPos - image.getHeight() / 2, null);
+    }
+
+    @Override
+    public String resourceType() {
+        return "Mineral";
     }
 
 }

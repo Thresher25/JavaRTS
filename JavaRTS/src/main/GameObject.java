@@ -97,4 +97,9 @@ public abstract class GameObject implements Controllable {
             shift = false;
         }
     }
+
+    @Override
+    public void drawGUI(Graphics g) {
+
+    }
 }

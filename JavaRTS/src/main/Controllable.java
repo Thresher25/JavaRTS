@@ -1,5 +1,6 @@
 package main;
 
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
@@ -20,5 +21,7 @@ public interface Controllable {
     void passInKeyboardTyped(KeyEvent e);
 
     void passInKeyboardReleased(KeyEvent e);
+
+    void drawGUI(Graphics g);
 
 }

@@ -32,14 +32,18 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
     public Formation formUnits = new Formation();
     boolean mousePressed = false;
     public static Vector<GameObject> focusables = new Vector<GameObject>();
+    public static int numMinerals = 0;
     public JFrame frame;
     public TileMap gameMap;
+    public static int numVespene = 0;
+    public Controllable gameFocus;
     boolean shouldMoveUnits = false;
     Point movePoint = new Point();
     public double cursorFrameChange = 1250.0;
     public Cursor[] c = new Cursor[5];
     //public Rectangle selectedArea = new Rectangle();
     public Point topLeft, bottomRight;
+    boolean notFocusOnUnit = false;
 
     public MainClass() {
         focusables.add(new Barracks(800, 600));
@@ -142,6 +146,9 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
         for(int i=0;i<focusables.size();i++){
             focusables.get(i).draw(g);
         }
+        if (notFocusOnUnit) {
+            gameFocus.drawGUI(g);
+        }
 
         if (mousePressed) {
             g.setColor(Color.BLACK);
@@ -152,6 +159,10 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
             g.setColor(new Color(65, 190, 190, 80));
             g.fillRect(topLeft.x, topLeft.y, getMousePosition().x - topLeft.x, getMousePosition().y - topLeft.y);
         }
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Times New Roman", 0, 24));
+        g.drawString("Minerals: " + numMinerals, 10, 25);
+        g.drawString("Vespene Gas: " + numVespene, 185, 25);
     }
 
 
@@ -203,6 +214,7 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
             bottomRight = e.getPoint();
             boolean changeInFocus = false;
             focusedUnits.clear();
+            notFocusOnUnit = false;
             Point tempTL = new Point(topLeft);
             Point tempBR = new Point(bottomRight);
             if(topLeft.x>bottomRight.x){
@@ -231,9 +243,19 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
                 if (focusables.get(i).isInArea(new Point(e.getX() - (int) focusables.get(i).getXPos(), e.getY() - (int) focusables.get(i).getYPos())) && !changeInFocus && focusables.get(i).isUnit()) {
                     focusedUnits.clear();
                     focusedUnits.add((Unit) focusables.get(i));
+                    changeInFocus = true;
                 } 
             }
             formUnits.setUnits(focusedUnits);
+            if (!changeInFocus) {
+                for (int i = 0; i < focusables.size(); i++) {
+                    if (focusables.get(i).isInArea(new Point(e.getX() - (int) focusables.get(i).getXPos(), e.getY() - (int) focusables.get(i).getYPos())) && !changeInFocus && !focusables.get(i).isUnit()) {
+                        gameFocus = focusables.get(i);
+                        notFocusOnUnit = true;
+                    }
+                }
+            }
+
         }
     }
 

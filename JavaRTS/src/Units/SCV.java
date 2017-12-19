@@ -1,5 +1,8 @@
 package Units;
 
+import main.MainClass;
+import main.Workable;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -14,6 +17,8 @@ public class SCV extends Unit {
     private static String filePath = "res/SCV.png";
     private int curImageX, curImageY;
     private boolean working = false;
+    private static double workPerTime = 0.85;
+    private Workable objectWorkingOn;
 
     public SCV() {
         super();
@@ -70,6 +75,10 @@ public class SCV extends Unit {
         working = false;
         curImageY = 0;
     }
+
+    public void setObjectWorkingOn(Workable obj) {
+        objectWorkingOn = obj;
+    }
     
     @Override
     public void update(double time) {
@@ -78,10 +87,19 @@ public class SCV extends Unit {
         if (!moving) {
             if(working){
                 curImageY = 1;
+                objectWorkingOn.doWork(time / 1000 * workPerTime);
+                if (objectWorkingOn.isHarvestable()) {
+                    if (objectWorkingOn.resourceType().equals("Mineral")) {
+                        MainClass.numMinerals += 5;
+                    } else if (objectWorkingOn.resourceType().equals("Vespene")) {
+                        MainClass.numVespene += 5;
+                    }
+                    objectWorkingOn.setHarvestable(false);
+                }
             }else{
                 curImageY = 0;
             }
-            if (angle != Math.PI * 3 / 2) {
+            if (angle != Math.PI * 3 / 2 && !working) {
                 if (angle > Math.PI * 3 / 2 || angle <= Math.PI / 2) {
                     if (angle < Math.PI * 3 / 2 + Math.PI / 64 && angle > Math.PI * 3 / 2) {
                         angle = Math.PI * 3 / 2;

@@ -1,12 +1,13 @@
 package Units;
 
 import main.Controllable;
+import main.MainClass;
+import main.Workable;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.Vector;
-import main.MainClass;
 
 public class Formation implements Controllable {
 
@@ -76,12 +77,10 @@ public class Formation implements Controllable {
                 boolean workable = false;
                 for(int j=0;j<MainClass.focusables.size();j++){
                     if(MainClass.focusables.get(j).isInArea(new Point((int)p.getX() - (int) MainClass.focusables.get(j).getXPos(), (int)p.getY() - (int) MainClass.focusables.get(j).getYPos())) && MainClass.focusables.get(j).isWorkable()){
-                        workable = true;
+                        SCV temp = (SCV) units.get(i);
+                        temp.setWorkable(true);
+                        temp.setObjectWorkingOn((Workable) MainClass.focusables.get(j));
                     }
-                }
-                if(workable){
-                    SCV temp = (SCV)units.get(i);
-                    temp.setWorkable(true);
                 }
             }
         }
@@ -139,6 +138,11 @@ public class Formation implements Controllable {
 
     @Override
     public void passInKeyboardReleased(KeyEvent e) {
+
+    }
+
+    @Override
+    public void drawGUI(Graphics g) {
 
     }
 }

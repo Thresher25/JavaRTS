@@ -55,6 +55,11 @@ public abstract class Unit extends GameObject {
     }
     
     public abstract String getUnitType();
+
+    @Override
+    public void drawGUI(Graphics g) {
+
+    }
     
     public Point getFocusPoint(){
         if(focusPoints.size()==0){
