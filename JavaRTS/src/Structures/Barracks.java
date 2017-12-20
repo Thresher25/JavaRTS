@@ -16,6 +16,7 @@ public class Barracks extends Structure {
     private static BufferedImage[] image = new BufferedImage[7];
     private static String filePath = "res/PATHHERE.png";
     private int spawnTimer = 0;
+    private static BufferedImage buySCV, buySoviet;
 
     public Barracks() {
         super();
@@ -41,6 +42,8 @@ public class Barracks extends Structure {
             image[4] = ImageIO.read(new File("res/BuildingsSprite.png")).getSubimage(500, 135, 138, 114);
             image[5] = ImageIO.read(new File("res/BuildingsSprite.png")).getSubimage(638, 135, 138, 114);
             image[6] = ImageIO.read(new File("res/BuildingsSprite.png")).getSubimage(776, 135, 138, 114);
+            buySCV = ImageIO.read(new File("res/BuildingsSprite.png"));
+            buySoviet = ImageIO.read(new File("res/BuildingsSprite.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
