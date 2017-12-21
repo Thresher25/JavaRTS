@@ -17,6 +17,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Vector;
@@ -36,14 +37,14 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
     public JFrame frame;
     public TileMap gameMap;
     public static int numVespene = 0;
-    public Controllable gameFocus;
+    public static Controllable gameFocus = null;
     boolean shouldMoveUnits = false;
     Point movePoint = new Point();
     public double cursorFrameChange = 1250.0;
     public Cursor[] c = new Cursor[5];
-    //public Rectangle selectedArea = new Rectangle();
     public Point topLeft, bottomRight;
-    boolean notFocusOnUnit = false;
+    public static boolean passedBackInput = false;
+    BufferedImage mineralIcon;
 
     public MainClass() {
         focusables.add(new Barracks(800, 600));
@@ -58,6 +59,7 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
 
         try {
             gameMap = new TileMap("res/DefaultMap.txt");
+            mineralIcon = ImageIO.read(new File("res/mineralIcon.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -146,7 +148,7 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
         for(int i=0;i<focusables.size();i++){
             focusables.get(i).draw(g);
         }
-        if (notFocusOnUnit) {
+        if (gameFocus != null) {
             gameFocus.drawGUI(g);
         }
 
@@ -161,8 +163,65 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
         }
         g.setColor(Color.WHITE);
         g.setFont(new Font("Times New Roman", 0, 24));
-        g.drawString("Minerals: " + numMinerals, 10, 25);
-        g.drawString("Vespene Gas: " + numVespene, 185, 25);
+        g.drawImage(mineralIcon.getScaledInstance(32, 32, BufferedImage.SCALE_FAST), 10, 0, null);
+        g.drawString("Minerals: " + numMinerals, 50, 25);
+        g.drawString("Vespene Gas: " + numVespene, 225, 25);
+    }
+
+    public void mouse1Press(MouseEvent e) {
+        if (e.getButton() == MouseEvent.BUTTON1) {
+            topLeft = e.getPoint();
+            mousePressed = true;
+        }
+    }
+
+    public void mouse1Release(MouseEvent e) {
+        mousePressed = false;
+        bottomRight = e.getPoint();
+        boolean changeInFocus = false;
+        focusedUnits.clear();
+        Point tempTL = new Point(topLeft);
+        Point tempBR = new Point(bottomRight);
+        if (topLeft.x > bottomRight.x) {
+            if (bottomRight.y < topLeft.y) {
+                topLeft = new Point(tempBR.x, tempBR.y);
+                bottomRight = new Point(tempTL.x, tempTL.y);
+            } else {
+                topLeft = new Point(tempBR.x, tempTL.y);
+                bottomRight = new Point(tempTL.x, tempBR.y);
+            }
+        } else if (bottomRight.y < topLeft.y) {
+            topLeft = new Point(tempTL.x, tempBR.y);
+            bottomRight = new Point(tempBR.x, tempTL.y);
+        }
+
+        for (int i = 0; i < focusables.size(); i++) {
+            if (focusables.get(i).getShape().intersects(topLeft.x - focusables.get(i).getXPos(), topLeft.y - focusables.get(i).getYPos(), bottomRight.x - topLeft.x, bottomRight.y - topLeft.y) && focusables.get(i).isUnit()) {
+                if (!changeInFocus) {
+                    changeInFocus = true;
+                }
+                focusedUnits.add((Unit) focusables.get(i));
+            }
+        }
+
+        for (int i = 0; i < focusables.size(); i++) {
+            if (focusables.get(i).isInArea(new Point(e.getX() - (int) focusables.get(i).getXPos(), e.getY() - (int) focusables.get(i).getYPos())) && !changeInFocus && focusables.get(i).isUnit()) {
+                focusedUnits.clear();
+                focusedUnits.add((Unit) focusables.get(i));
+                changeInFocus = true;
+            }
+        }
+        formUnits.setUnits(focusedUnits);
+        if (!changeInFocus) {
+            gameFocus = null;
+            for (int i = 0; i < focusables.size(); i++) {
+                if (focusables.get(i).isInArea(new Point(e.getX() - (int) focusables.get(i).getXPos(), e.getY() - (int) focusables.get(i).getYPos())) && !changeInFocus && !focusables.get(i).isUnit()) {
+                    gameFocus = focusables.get(i);
+                }
+            }
+        } else {
+            gameFocus = formUnits;
+        }
     }
 
 
@@ -198,65 +257,33 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        if(e.getButton() == MouseEvent.BUTTON1){
-            topLeft = e.getPoint();
-            mousePressed = true;
+        if (gameFocus == null) {
+            mouse1Press(e);
+        } else {
+            gameFocus.passInMousePressedEvent(e);
+            if (passedBackInput) {
+                mouse1Press(e);
+            }
         }
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        if(e.getButton()==MouseEvent.BUTTON3){
-            shouldMoveUnits = true;
-            movePoint = e.getPoint();
-        }else if(e.getButton()==MouseEvent.BUTTON1){
-            mousePressed = false;
-            bottomRight = e.getPoint();
-            boolean changeInFocus = false;
-            focusedUnits.clear();
-            notFocusOnUnit = false;
-            Point tempTL = new Point(topLeft);
-            Point tempBR = new Point(bottomRight);
-            if(topLeft.x>bottomRight.x){
-                if(bottomRight.y<topLeft.y){
-                    topLeft = new Point(tempBR.x, tempBR.y);
-                    bottomRight = new Point(tempTL.x, tempTL.y);
-                }else{
-                    topLeft = new Point(tempBR.x, tempTL.y);
-                    bottomRight = new Point(tempTL.x, tempBR.y);
-                }
-            }else if(bottomRight.y<topLeft.y){
-                topLeft = new Point(tempTL.x, tempBR.y);
-                bottomRight = new Point(tempBR.x, tempTL.y);
+        if (gameFocus == null) {
+            if (e.getButton() == MouseEvent.BUTTON3) {
+                shouldMoveUnits = true;
+                movePoint = e.getPoint();
+            } else if (e.getButton() == MouseEvent.BUTTON1) {
+                mouse1Release(e);
             }
-            
-            for(int i=0;i<focusables.size();i++){
-                if (focusables.get(i).getShape().intersects(topLeft.x - focusables.get(i).getXPos(), topLeft.y - focusables.get(i).getYPos(), bottomRight.x - topLeft.x, bottomRight.y - topLeft.y) && focusables.get(i).isUnit()) {
-                    if (!changeInFocus) {
-                        changeInFocus = true;
-                    }
-                    focusedUnits.add((Unit) focusables.get(i));
-                }
+        } else {
+            gameFocus.passInMouseReleasedEvent(e);
+            if (passedBackInput) {
+                passedBackInput = false;
+                mouse1Release(e);
             }
-            
-            for(int i=0;i<focusables.size();i++){
-                if (focusables.get(i).isInArea(new Point(e.getX() - (int) focusables.get(i).getXPos(), e.getY() - (int) focusables.get(i).getYPos())) && !changeInFocus && focusables.get(i).isUnit()) {
-                    focusedUnits.clear();
-                    focusedUnits.add((Unit) focusables.get(i));
-                    changeInFocus = true;
-                } 
-            }
-            formUnits.setUnits(focusedUnits);
-            if (!changeInFocus) {
-                for (int i = 0; i < focusables.size(); i++) {
-                    if (focusables.get(i).isInArea(new Point(e.getX() - (int) focusables.get(i).getXPos(), e.getY() - (int) focusables.get(i).getYPos())) && !changeInFocus && !focusables.get(i).isUnit()) {
-                        gameFocus = focusables.get(i);
-                        notFocusOnUnit = true;
-                    }
-                }
-            }
-
         }
+
     }
 
     @Override

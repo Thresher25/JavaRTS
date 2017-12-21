@@ -67,11 +67,13 @@ public abstract class GameObject implements Controllable {
     }
 
     public void passInMousePressedEvent(MouseEvent e) {
-
+        MainClass.gameFocus = null;
+        MainClass.passedBackInput = true;
     }
 
     public void passInMouseReleasedEvent(MouseEvent e) {
-
+        MainClass.gameFocus = null;
+        MainClass.passedBackInput = true;
     }
 
     public void passInMouseEnteredEvent(MouseEvent e) {

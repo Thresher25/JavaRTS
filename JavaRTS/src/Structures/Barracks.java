@@ -7,6 +7,7 @@ import main.MainClass;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -42,8 +43,8 @@ public class Barracks extends Structure {
             image[4] = ImageIO.read(new File("res/BuildingsSprite.png")).getSubimage(500, 135, 138, 114);
             image[5] = ImageIO.read(new File("res/BuildingsSprite.png")).getSubimage(638, 135, 138, 114);
             image[6] = ImageIO.read(new File("res/BuildingsSprite.png")).getSubimage(776, 135, 138, 114);
-            buySCV = ImageIO.read(new File("res/BuildingsSprite.png"));
-            buySoviet = ImageIO.read(new File("res/BuildingsSprite.png"));
+            buySCV = ImageIO.read(new File("res/buySCV.png"));
+            buySoviet = ImageIO.read(new File("res/buySoviet.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -52,24 +53,61 @@ public class Barracks extends Structure {
     @Override
     public void update(double time) {
         super.update(time);
-//        timePassed += time;
-        spawnTimer += time;
-        if (spawnTimer >= 10 / 1 * 1000) {
-            spawnTimer = 0;
-            Unit sov;
-            if (Math.random() > 0.5) {
-                sov = new SovietConscript(xPos, yPos + 65);
-            } else {
-                sov = new SCV(xPos, yPos + 65);
-            }
-            sov.setFocusPoint((int) (Math.random() * 1000 + 10), (int) (Math.random() * 1000 + 10));
-            MainClass.focusables.add(sov);
-        }
 
+    }
+
+    private void spawnUnit(String name) {
+        Unit sov;
+        if (name.equals("SCV")) {
+            MainClass.numMinerals -= 150;
+            sov = new SCV(xPos, yPos + 65);
+        } else if (name.equals("Soviet")) {
+            MainClass.numMinerals -= 250;
+            sov = new SovietConscript(xPos, yPos + 65);
+        } else {
+            sov = new SCV(xPos, yPos + 65);
+        }
+        MainClass.focusables.add(sov);
+    }
+
+    @Override
+    public void drawGUI(Graphics g) {
+        super.drawGUI(g);
+        g.drawImage(buySCV, 85, 925, null);
+        g.drawImage(buySoviet, 222, 925, null);
     }
 
     @Override
     public void draw(Graphics g) {
         g.drawImage(image[curImage], (int) xPos - image[curImage].getWidth() / 2, (int) yPos - image[curImage].getHeight() / 2, null);
     }
+
+    @Override
+    public void passInMouseReleasedEvent(MouseEvent e) {
+        if (new Rectangle(85, 925, 100, 100).contains(e.getPoint())) {
+            spawnUnit("SCV");
+        } else if (new Rectangle(222, 925, 100, 100).contains(e.getPoint())) {
+            spawnUnit("Soviet");
+        } else {
+            MainClass.passedBackInput = true;
+        }
+    }
+
+    @Override
+    public void passInMousePressedEvent(MouseEvent e) {
+        if (new Rectangle(85, 925, 100, 100).contains(e.getPoint())) {
+
+        } else if (new Rectangle(222, 925, 100, 100).contains(e.getPoint())) {
+
+        } else {
+            if (this.isInArea(new Point(e.getX() - (int) this.getXPos(), e.getY() - (int) this.getYPos()))) {
+
+            } else {
+                MainClass.gameFocus = null;
+                MainClass.passedBackInput = true;
+            }
+
+        }
+    }
+
 }
