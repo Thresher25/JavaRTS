@@ -86,8 +86,10 @@ public class Barracks extends Structure {
     public void passInMouseReleasedEvent(MouseEvent e) {
         if (new Rectangle(85, 925, 100, 100).contains(e.getPoint())) {
             spawnUnit("SCV");
+            MainClass.passedBackInput = false;
         } else if (new Rectangle(222, 925, 100, 100).contains(e.getPoint())) {
             spawnUnit("Soviet");
+            MainClass.passedBackInput = false;
         } else {
             MainClass.passedBackInput = true;
         }
@@ -96,12 +98,12 @@ public class Barracks extends Structure {
     @Override
     public void passInMousePressedEvent(MouseEvent e) {
         if (new Rectangle(85, 925, 100, 100).contains(e.getPoint())) {
-
+            MainClass.passedBackInput = false;
         } else if (new Rectangle(222, 925, 100, 100).contains(e.getPoint())) {
-
+            MainClass.passedBackInput = false;
         } else {
             if (this.isInArea(new Point(e.getX() - (int) this.getXPos(), e.getY() - (int) this.getYPos()))) {
-
+                MainClass.passedBackInput = false;
             } else {
                 MainClass.gameFocus = null;
                 MainClass.passedBackInput = true;
