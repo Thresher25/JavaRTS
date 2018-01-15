@@ -70,6 +70,14 @@ public class Barracks extends Structure {
         }
         MainClass.focusables.add(sov);
     }
+    
+    public void spawnEUnit(){
+        Unit sov;
+        sov = new SovietConscript(xPos, yPos + 65);
+        sov.setFocusPoint((int)(Math.random()*1000), (int)(Math.random()*1000));
+        sov.setEnemy();
+        MainClass.focusables.add(sov);
+    }
 
     @Override
     public void drawGUI(Graphics g) {
