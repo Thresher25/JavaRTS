@@ -46,13 +46,17 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
     public double cursorFrameChange = 1250.0;
     public Cursor[] c = new Cursor[5];
     public Point topLeft, bottomRight;
+    public Barracks eRax = new Barracks(100,900);
     public static boolean passedBackInput = false;
     public static boolean placingStruct = false;
     BufferedImage mineralIcon, Controls, VespeneIcon;
     private boolean gameStarted = false;
+    private float eSpawnTime = 3000.0f;
 
     public MainClass() {
+        eRax.setEnemy();
         focusables.add(new Barracks(800, 600));
+        focusables.add(eRax);
         focusables.add(new CommandCentre(700, 350));
         focusables.add(new Mineral(1200, 225));
         focusables.add(new Mineral(1270, 200));
@@ -158,7 +162,13 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
     }
 
     public void update(double pTimeElapsed) {
-
+        if(eRax.HP>0){
+        eSpawnTime-=pTimeElapsed;
+        if(eSpawnTime<=0){
+            eSpawnTime = 15000.0f;
+            eRax.spawnEUnit();
+            }
+        }
         if (shouldMoveUnits) {
             shouldMoveUnits = false;
             formUnits.moveToLocation(movePoint);
@@ -171,10 +181,11 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
         for(int i=0;i<focusables.size();i++){
             focusables.get(i).update(pTimeElapsed);
             if (focusables.get(i).isUnit()) {
+                Unit u = (Unit) focusables.get(i);
 
                 for (int j = 0; j < focusables.size(); j++) {
-                    if (((focusables.get(j).getXPos() - focusables.get(i).getXPos()) * (focusables.get(j).getXPos() - focusables.get(i).getXPos()) + (focusables.get(j).getYPos() - focusables.get(i).getYPos()) * (focusables.get(j).getYPos() - focusables.get(i).getYPos())) <= ((Unit) (focusables.get(i))).getAttackRadius() && focusables.get(j).ally != focusables.get(i).ally) {
-                        ((Unit) (focusables.get(i))).attack(focusables.get(j), pTimeElapsed);
+                    if (((focusables.get(j).getXPos() - u.getXPos()) * (focusables.get(j).getXPos() - u.getXPos()) + (focusables.get(j).getYPos() - u.getYPos()) * (focusables.get(j).getYPos() - u.getYPos())) <= (u).getAttackRadius() && focusables.get(j).ally != u.ally) {
+                        u.attack(focusables.get(j), pTimeElapsed);
                     }
                 }
             }
