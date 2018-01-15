@@ -29,12 +29,15 @@ public abstract class Structure extends GameObject {
     
     @Override
     public void update(double time){
-        HP++;
+        if(!finishedConstruction){
+            HP++;
+        }
         if(HP==hpPerStage*stages){
             finishedConstruction = true;
         }
         if(finishedConstruction){
-            curImage = stages;
+            //curImage = stages;
+            curImage = (int)(HP/hpPerStage);
         }else{
             curImage = (int)(HP/hpPerStage);
         }
