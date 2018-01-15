@@ -85,10 +85,14 @@ public class Barracks extends Structure {
     @Override
     public void passInMouseReleasedEvent(MouseEvent e) {
         if (new Rectangle(85, 925, 100, 100).contains(e.getPoint())) {
-            spawnUnit("SCV");
+            if (MainClass.curUnits < MainClass.numMaxUnits) {
+                spawnUnit("SCV");
+            }
             MainClass.passedBackInput = false;
         } else if (new Rectangle(222, 925, 100, 100).contains(e.getPoint())) {
-            spawnUnit("Soviet");
+            if (MainClass.curUnits < MainClass.numMaxUnits) {
+                spawnUnit("Soviet");
+            }
             MainClass.passedBackInput = false;
         } else {
             MainClass.passedBackInput = true;

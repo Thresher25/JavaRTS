@@ -111,13 +111,14 @@ public class Formation implements Controllable {
         if (e.getButton() == MouseEvent.BUTTON1) {
             MainClass.gameFocus = null;
             MainClass.passedBackInput = true;
-        }
+        } else MainClass.passedBackInput = e.getButton() != MouseEvent.BUTTON3;
     }
 
     @Override
     public void passInMouseReleasedEvent(MouseEvent e) {
         if (e.getButton() == MouseEvent.BUTTON3) {
             moveToLocation(e.getPoint());
+            MainClass.passedBackInput = false;
         } else {
             MainClass.gameFocus = null;
             MainClass.passedBackInput = true;

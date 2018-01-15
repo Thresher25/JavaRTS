@@ -10,6 +10,7 @@ public abstract class GameObject implements Controllable {
     protected double xPos, yPos;
     protected Polygon area;
     protected float HP;
+    protected boolean ally = true;
     protected double timePassed = 0;
 
     public GameObject() {
@@ -28,6 +29,10 @@ public abstract class GameObject implements Controllable {
 
     public boolean isUnit() {
         return false;
+    }
+
+    public void setEnemy() {
+        ally = false;
     }
     
     public float getHP(){

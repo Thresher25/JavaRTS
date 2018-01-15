@@ -12,7 +12,10 @@ public abstract class Unit extends GameObject {
     int spaceUnits;//the smallest square with sidelength n(units) which contains the moveable unit (this is for formations)
     public static final int UNIT = 15;//a unit is 15 pixels;
     boolean moving;
+    int unitPoints = 1;
     boolean inFormation = false;
+    double dmg = 0;
+    double attackRadius = 0.0;//squared to save comp power
     Polygon clickArea;
     Point2D formationOffset = new Point2D(0, 0);
     Vector<Point> focusPoints = new Vector<Point>();
@@ -27,6 +30,18 @@ public abstract class Unit extends GameObject {
         super(x, y);
         angle = 0;
         moving = false;
+    }
+
+    public int getUnitPoints() {
+        return unitPoints;
+    }
+
+    public void attack(GameObject o, double time) {
+        o.removeHP((float) (time / 1000 * dmg));
+    }
+
+    public double getAttackRadius() {
+        return attackRadius;
     }
 
     public Point2D getFormationOffset() {

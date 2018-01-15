@@ -17,6 +17,9 @@ public class SovietConscript extends Unit {
 
     public SovietConscript(double x, double y) {
         super(x, y);
+        attackRadius = 625;
+        dmg = 5.0;
+        HP = 100;
         int[] xPoints = {-10, 11, 11, -10};
         int[] yPoints = {-16, -16, 16, 16};
         clickArea = new Polygon(xPoints, yPoints, 4);
@@ -147,6 +150,19 @@ public class SovietConscript extends Unit {
     @Override
     public void draw(Graphics g) {
         g.drawImage(image[curImageX][curImageY], (int) xPos - image[curImageX][curImageY].getWidth() / 2, (int) yPos - image[curImageX][curImageY].getHeight() / 2, null);
+        if (HP != 100) {
+            g.setColor(new Color(1.0f, 0.0f, 0.0f));
+            if (HP > 25) {
+                g.setColor(new Color(0.75f, 0.25f, 0.0f));
+            }
+            if (HP > 50) {
+                g.setColor(new Color(0.25f, 0.5f, 0.0f));
+            }
+            if (HP > 75) {
+                g.setColor(new Color(0.1f, 0.8f, 0.0f));
+            }
+            g.fillRect((int) xPos - image[curImageX][curImageY].getWidth() / 2, (int) yPos - image[curImageX][curImageY].getHeight() / 2 - 5, image[curImageX][curImageY].getWidth() * (int) Math.round(HP / 100.0), 4);
+        }
     }
 
     @Override

@@ -8,6 +8,7 @@ import Structures.CommandCentre;
 import Tiles.TileMap;
 import Units.Formation;
 import Units.SCV;
+import Units.SovietConscript;
 import Units.Unit;
 
 import javax.imageio.ImageIO;
@@ -37,6 +38,8 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
     public JFrame frame;
     public TileMap gameMap;
     public static int numVespene = 0;
+    public static int numMaxUnits = 10;
+    public static int curUnits = 0;
     public static Controllable gameFocus = null;
     boolean shouldMoveUnits = false;
     Point movePoint = new Point();
@@ -44,7 +47,9 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
     public Cursor[] c = new Cursor[5];
     public Point topLeft, bottomRight;
     public static boolean passedBackInput = false;
-    BufferedImage mineralIcon;
+    public static boolean placingStruct = false;
+    BufferedImage mineralIcon, Controls;
+    private boolean gameStarted = false;
 
     public MainClass() {
         focusables.add(new Barracks(800, 600));
@@ -55,14 +60,34 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
         focusables.add(new Vespene(1380, 550));
         focusables.add(new Vespene(1470, 500));
         focusables.add(new Vespene(1525, 570));
+        focusables.add(new SCV(1250, 650));
         focusables.add(new SCV(1250, 750));
+        focusables.add(new SCV(1250, 850));
+        focusables.add(new SovietConscript(1250, 350));
+        focusables.get(focusables.size() - 1).setEnemy();
+        focusables.get(focusables.size() - 1).removeHP(10);
+        focusables.add(new SovietConscript(1250, 350));
+        focusables.get(focusables.size() - 1).setEnemy();
+        focusables.get(focusables.size() - 1).removeHP(10);
+        focusables.add(new SovietConscript(1250, 350));
+        focusables.get(focusables.size() - 1).setEnemy();
+        focusables.get(focusables.size() - 1).removeHP(10);
+        focusables.add(new SovietConscript(1250, 350));
+        focusables.get(focusables.size() - 1).setEnemy();
+        focusables.get(focusables.size() - 1).removeHP(10);
+        focusables.add(new SovietConscript(1250, 350));
+        focusables.get(focusables.size() - 1).setEnemy();
+        focusables.get(focusables.size() - 1).removeHP(10);
+        focusables.add(new SovietConscript(1250, 350));
+        focusables.get(focusables.size() - 1).setEnemy();
+        focusables.get(focusables.size() - 1).removeHP(10);
+        focusables.add(new SovietConscript(1250, 350));
+        focusables.get(focusables.size() - 1).setEnemy();
+        focusables.get(focusables.size() - 1).removeHP(10);
+        focusables.add(new SovietConscript(1250, 350));
+        focusables.get(focusables.size() - 1).setEnemy();
+        focusables.get(focusables.size() - 1).removeHP(10);
 
-        try {
-            gameMap = new TileMap("res/DefaultMap.txt");
-            mineralIcon = ImageIO.read(new File("res/mineralIcon.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         this.setSize(SCREENWIDTH, SCREENHEIGHT);
         this.setVisible(true);
         this.setDoubleBuffered(true);
@@ -82,10 +107,21 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
             c[3] = toolkit.createCustomCursor(ImageIO.read(new File("res/cur4.png")), new Point(frame.getX(), frame.getY()), "CF4");
             c[4] = toolkit.createCustomCursor(ImageIO.read(new File("res/cur5.png")), new Point(frame.getX(), frame.getY()), "CF5");
             frame.setCursor(c[0]);
+
+            Controls = ImageIO.read(new File("res/Controls.png"));
         }catch(IOException e){
-                e.printStackTrace();
+            e.printStackTrace();
         }
         frame.add(this);
+        frame.repaint();
+        try {
+            gameMap = new TileMap("res/DefaultMap.txt");
+            mineralIcon = ImageIO.read(new File("res/mineralIcon.png"));
+            gameStarted = true;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public static void main(String[] args){
@@ -118,12 +154,26 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
     }
 
     public void update(double pTimeElapsed) {
+
         if (shouldMoveUnits) {
             shouldMoveUnits = false;
             formUnits.moveToLocation(movePoint);
         }
+        for (int j = focusables.size() - 1; j > 0; j--) {
+            if (focusables.get(j).getHP() <= 0) {
+                focusables.remove(focusables.get(j));
+            }
+        }
         for(int i=0;i<focusables.size();i++){
             focusables.get(i).update(pTimeElapsed);
+            if (focusables.get(i).isUnit()) {
+
+                for (int j = 0; j < focusables.size(); j++) {
+                    if (((focusables.get(j).getXPos() - focusables.get(i).getXPos()) * (focusables.get(j).getXPos() - focusables.get(i).getXPos()) + (focusables.get(j).getYPos() - focusables.get(i).getYPos()) * (focusables.get(j).getYPos() - focusables.get(i).getYPos())) <= ((Unit) (focusables.get(i))).getAttackRadius() && focusables.get(j).ally != focusables.get(i).ally) {
+                        ((Unit) (focusables.get(i))).attack(focusables.get(j), pTimeElapsed);
+                    }
+                }
+            }
         }
 
         cursorFrameChange-=pTimeElapsed;
@@ -141,31 +191,42 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.clearRect(0, 0, SCREENWIDTH, SCREENHEIGHT);
-        g.setColor(Color.MAGENTA);
-        g.fillRect(0, 0, SCREENWIDTH, SCREENHEIGHT);
-        gameMap.draw(g);
-        for(int i=0;i<focusables.size();i++){
-            focusables.get(i).draw(g);
-        }
-        if (gameFocus != null) {
-            gameFocus.drawGUI(g);
-        }
+        if (gameStarted) {
+            g.clearRect(0, 0, SCREENWIDTH, SCREENHEIGHT);
+            g.setColor(Color.MAGENTA);
+            g.fillRect(0, 0, SCREENWIDTH, SCREENHEIGHT);
+            gameMap.draw(g);
+            for (int i = 0; i < focusables.size(); i++) {
+                focusables.get(i).draw(g);
+            }
+            if (gameFocus != null) {
+                gameFocus.drawGUI(g);
+            }
 
-        if (mousePressed) {
-            g.setColor(Color.BLACK);
-            g.drawLine(topLeft.x, topLeft.y, getMousePosition().x, topLeft.y);
-            g.drawLine(topLeft.x, topLeft.y, topLeft.x, getMousePosition().y);
-            g.drawLine(topLeft.x, getMousePosition().y, getMousePosition().x, getMousePosition().y);
-            g.drawLine(getMousePosition().x, topLeft.y, getMousePosition().x, getMousePosition().y);
-            g.setColor(new Color(65, 190, 190, 80));
-            g.fillRect(topLeft.x, topLeft.y, getMousePosition().x - topLeft.x, getMousePosition().y - topLeft.y);
+            if (mousePressed) {
+                g.setColor(Color.BLACK);
+                g.drawLine(topLeft.x, topLeft.y, getMousePosition().x, topLeft.y);
+                g.drawLine(topLeft.x, topLeft.y, topLeft.x, getMousePosition().y);
+                g.drawLine(topLeft.x, getMousePosition().y, getMousePosition().x, getMousePosition().y);
+                g.drawLine(getMousePosition().x, topLeft.y, getMousePosition().x, getMousePosition().y);
+                g.setColor(new Color(65, 190, 190, 80));
+                g.fillRect(topLeft.x, topLeft.y, getMousePosition().x - topLeft.x, getMousePosition().y - topLeft.y);
+            }
+            g.setColor(Color.WHITE);
+            g.setFont(new Font("Times New Roman", 0, 24));
+            g.drawImage(mineralIcon.getScaledInstance(32, 32, BufferedImage.SCALE_FAST), 10, 0, null);
+            g.drawString("Minerals: " + numMinerals, 50, 25);
+            g.drawString("Vespene Gas: " + numVespene, 225, 25);
+            curUnits = 0;
+            for (int i = 0; i < focusables.size(); i++) {
+                if (focusables.get(i).ally && focusables.get(i).isUnit()) {
+                    curUnits += ((Unit) focusables.get(i)).getUnitPoints();
+                }
+            }
+            g.drawString("Max Units: " + curUnits + "/" + numMaxUnits, 930, 50);
+        } else {
+            g.drawImage(Controls, 0, 0, null);
         }
-        g.setColor(Color.WHITE);
-        g.setFont(new Font("Times New Roman", 0, 24));
-        g.drawImage(mineralIcon.getScaledInstance(32, 32, BufferedImage.SCALE_FAST), 10, 0, null);
-        g.drawString("Minerals: " + numMinerals, 50, 25);
-        g.drawString("Vespene Gas: " + numVespene, 225, 25);
     }
 
     public void mouse1Press(MouseEvent e) {

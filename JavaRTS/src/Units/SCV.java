@@ -26,6 +26,7 @@ public class SCV extends Unit {
 
     public SCV(double x, double y) {
         super(x, y);
+        HP = 150;
         curImageY = 0;
         curImageX = 0;
         spaceUnits = 1;
