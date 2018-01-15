@@ -63,6 +63,7 @@ public class Barracks extends Structure {
             sov = new SCV(xPos, yPos + 65);
         } else if (name.equals("Soviet")) {
             MainClass.numMinerals -= 250;
+            MainClass.numVespene -= 25;
             sov = new SovietConscript(xPos, yPos + 65);
         } else {
             sov = new SCV(xPos, yPos + 65);

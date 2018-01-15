@@ -48,7 +48,7 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
     public Point topLeft, bottomRight;
     public static boolean passedBackInput = false;
     public static boolean placingStruct = false;
-    BufferedImage mineralIcon, Controls;
+    BufferedImage mineralIcon, Controls, VespeneIcon;
     private boolean gameStarted = false;
 
     public MainClass() {
@@ -60,31 +60,34 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
         focusables.add(new Vespene(1380, 550));
         focusables.add(new Vespene(1470, 500));
         focusables.add(new Vespene(1525, 570));
+        focusables.add(new SCV(1150, 650));
+        focusables.add(new SCV(1150, 750));
+        focusables.add(new SCV(1150, 850));
         focusables.add(new SCV(1250, 650));
         focusables.add(new SCV(1250, 750));
         focusables.add(new SCV(1250, 850));
-        focusables.add(new SovietConscript(1250, 350));
+        focusables.add(new SovietConscript(1450, 350));
         focusables.get(focusables.size() - 1).setEnemy();
         focusables.get(focusables.size() - 1).removeHP(10);
-        focusables.add(new SovietConscript(1250, 350));
+        focusables.add(new SovietConscript(1450, 350));
         focusables.get(focusables.size() - 1).setEnemy();
         focusables.get(focusables.size() - 1).removeHP(10);
-        focusables.add(new SovietConscript(1250, 350));
+        focusables.add(new SovietConscript(1450, 350));
         focusables.get(focusables.size() - 1).setEnemy();
         focusables.get(focusables.size() - 1).removeHP(10);
-        focusables.add(new SovietConscript(1250, 350));
+        focusables.add(new SovietConscript(1450, 350));
         focusables.get(focusables.size() - 1).setEnemy();
         focusables.get(focusables.size() - 1).removeHP(10);
-        focusables.add(new SovietConscript(1250, 350));
+        focusables.add(new SovietConscript(1450, 350));
         focusables.get(focusables.size() - 1).setEnemy();
         focusables.get(focusables.size() - 1).removeHP(10);
-        focusables.add(new SovietConscript(1250, 350));
+        focusables.add(new SovietConscript(1450, 350));
         focusables.get(focusables.size() - 1).setEnemy();
         focusables.get(focusables.size() - 1).removeHP(10);
-        focusables.add(new SovietConscript(1250, 350));
+        focusables.add(new SovietConscript(1450, 350));
         focusables.get(focusables.size() - 1).setEnemy();
         focusables.get(focusables.size() - 1).removeHP(10);
-        focusables.add(new SovietConscript(1250, 350));
+        focusables.add(new SovietConscript(1450, 350));
         focusables.get(focusables.size() - 1).setEnemy();
         focusables.get(focusables.size() - 1).removeHP(10);
 
@@ -117,6 +120,7 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
         try {
             gameMap = new TileMap("res/DefaultMap.txt");
             mineralIcon = ImageIO.read(new File("res/mineralIcon.png"));
+            VespeneIcon = ImageIO.read(new File("res/VespeneIcon.png"));
             gameStarted = true;
         } catch (IOException e) {
             e.printStackTrace();
@@ -216,6 +220,7 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
             g.setFont(new Font("Times New Roman", 0, 24));
             g.drawImage(mineralIcon.getScaledInstance(32, 32, BufferedImage.SCALE_FAST), 10, 0, null);
             g.drawString("Minerals: " + numMinerals, 50, 25);
+            g.drawImage(VespeneIcon, 200, 6, null);
             g.drawString("Vespene Gas: " + numVespene, 225, 25);
             curUnits = 0;
             for (int i = 0; i < focusables.size(); i++) {
