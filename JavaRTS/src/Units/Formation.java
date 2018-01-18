@@ -111,7 +111,14 @@ public class Formation implements Controllable {
         if (e.getButton() == MouseEvent.BUTTON1) {
             MainClass.gameFocus = null;
             MainClass.passedBackInput = true;
-        } else MainClass.passedBackInput = e.getButton() != MouseEvent.BUTTON3;
+        } else {
+            if(e.getButton() != MouseEvent.BUTTON3){
+                MainClass.gameFocus = null;
+                MainClass.passedBackInput = true;
+            }else{
+                
+            }
+        }
     }
 
     @Override
