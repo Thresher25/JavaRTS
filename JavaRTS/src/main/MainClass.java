@@ -165,7 +165,7 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
         if(eRax.HP>0){
         eSpawnTime-=pTimeElapsed;
         if(eSpawnTime<=0){
-            eSpawnTime = 15000.0f;
+            eSpawnTime = 25000.0f;
             eRax.spawnEUnit();
             }
         }
@@ -340,6 +340,7 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
             gameFocus.passInMousePressedEvent(e);
             if (passedBackInput) {
                 mouse1Press(e);
+                passedBackInput = false;
             }
         }
     }
