@@ -7,8 +7,9 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import main.Workable;
 
-public abstract class Structure extends GameObject {
+public abstract class Structure extends GameObject implements Workable {
     protected int stages;
     protected float hpPerStage;
     static BufferedImage menuPiece;
@@ -29,8 +30,9 @@ public abstract class Structure extends GameObject {
     
     @Override
     public void update(double time){
+        if(HP>hpPerStage*(stages-1))
         if(!finishedConstruction){
-            HP++;
+            //HP++;
         }
         if(HP==hpPerStage*stages){
             finishedConstruction = true;
@@ -51,6 +53,28 @@ public abstract class Structure extends GameObject {
     @Override
     public void drawGUI(Graphics g) {
         g.drawImage(menuPiece, 0, 787, null);
+    }
+
+    @Override
+    public void doWork(double workDone) {
+        if(HP<(stages)*hpPerStage){
+            HP+=workDone*10;
+        }
+    }
+
+    @Override
+    public boolean isHarvestable() {
+        return false;
+    }
+
+    @Override
+    public void setHarvestable(boolean set) {
+        
+    }
+
+    @Override
+    public String resourceType() {
+        return null;
     }
 
 }
