@@ -273,7 +273,7 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
         }
 
         for (int i = 0; i < focusables.size(); i++) {
-            if (focusables.get(i).getShape().intersects(topLeft.x - focusables.get(i).getXPos(), topLeft.y - focusables.get(i).getYPos(), bottomRight.x - topLeft.x, bottomRight.y - topLeft.y) && focusables.get(i).isUnit()) {
+            if (focusables.get(i).getShape().intersects(topLeft.x - focusables.get(i).getXPos(), topLeft.y - focusables.get(i).getYPos(), bottomRight.x - topLeft.x, bottomRight.y - topLeft.y) && focusables.get(i).isUnit() && focusables.get(i).ally) {
                 if (!changeInFocus) {
                     changeInFocus = true;
                 }
@@ -282,7 +282,7 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
         }
 
         for (int i = 0; i < focusables.size(); i++) {
-            if (focusables.get(i).isInArea(new Point(e.getX() - (int) focusables.get(i).getXPos(), e.getY() - (int) focusables.get(i).getYPos())) && !changeInFocus && focusables.get(i).isUnit()) {
+            if (focusables.get(i).isInArea(new Point(e.getX() - (int) focusables.get(i).getXPos(), e.getY() - (int) focusables.get(i).getYPos())) && !changeInFocus && focusables.get(i).isUnit() && focusables.get(i).ally) {
                 focusedUnits.clear();
                 focusedUnits.add((Unit) focusables.get(i));
                 changeInFocus = true;
@@ -292,7 +292,7 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
         if (!changeInFocus) {
             gameFocus = null;
             for (int i = 0; i < focusables.size(); i++) {
-                if (focusables.get(i).isInArea(new Point(e.getX() - (int) focusables.get(i).getXPos(), e.getY() - (int) focusables.get(i).getYPos())) && !changeInFocus && !focusables.get(i).isUnit()) {
+                if (focusables.get(i).isInArea(new Point(e.getX() - (int) focusables.get(i).getXPos(), e.getY() - (int) focusables.get(i).getYPos())) && !changeInFocus && !focusables.get(i).isUnit() && focusables.get(i).ally) {
                     gameFocus = focusables.get(i);
                 }
             }
