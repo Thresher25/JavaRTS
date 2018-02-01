@@ -31,7 +31,7 @@ JavaRTS/*.iws
 ## Plugin-specific files:
 
 # IntelliJ
-JavaRTS/out/
+JavaRTS/out/production/
 
 # mpeltonen/sbt-idea plugin
 JavaRTS/.idea_modules/
