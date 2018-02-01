@@ -436,7 +436,7 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
 
             if (numCC <= 0) {
                 g.setFont(new Font("", 0, 250));
-                g.drawString("YOU LOST", 500, 400);
+                g.drawString("YOU LOST", 800, 600);
             } else {
                 tutorialG(g);
             }
