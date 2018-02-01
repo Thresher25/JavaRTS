@@ -46,4 +46,10 @@ public class SupplyDepot extends Structure {
     public void draw(Graphics g) {
         g.drawImage(image[curImage], (int) xPos - image[curImage].getWidth() / 2, (int) yPos - image[curImage].getHeight() / 2, null);
     }
+
+    @Override
+    public String resourceType() {
+        return "SupplyDepot";
+    }
+
 }

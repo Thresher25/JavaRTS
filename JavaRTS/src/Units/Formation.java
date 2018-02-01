@@ -86,6 +86,10 @@ public class Formation implements Controllable {
         }
     }
 
+    public Unit getUnit(int i) {
+        return units.get(i);
+    }
+
     public void setUnits(Vector<Unit> u) {
         this.units = u;
         setVectors();

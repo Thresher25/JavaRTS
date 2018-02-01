@@ -1,13 +1,13 @@
 package Structures;
 
 import main.GameObject;
+import main.Workable;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import main.Workable;
 
 public abstract class Structure extends GameObject implements Workable {
     protected int stages;
@@ -30,7 +30,9 @@ public abstract class Structure extends GameObject implements Workable {
     
     @Override
     public void update(double time){
-        if(HP>hpPerStage*(stages-1))
+        if (HP > hpPerStage * (stages)) {
+            HP = hpPerStage * stages;
+        }
         if(!finishedConstruction){
             //HP++;
         }
@@ -44,7 +46,11 @@ public abstract class Structure extends GameObject implements Workable {
             curImage = (int)(HP/hpPerStage);
         }
     }
-    
+
+    public boolean isFinishedConstruction() {
+        return finishedConstruction;
+    }
+
     @Override
     public boolean isWorkable(){
         return true;

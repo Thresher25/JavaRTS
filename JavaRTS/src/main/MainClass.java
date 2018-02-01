@@ -52,48 +52,41 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
     BufferedImage mineralIcon, Controls, VespeneIcon;
     private boolean gameStarted = false;
     private float eSpawnTime = 3000.0f;
+    private int tStage = 0;
+    private double timePassed = 0;
+    private int numCC = 1;
+    private CommandCentre cCentre;
+    private SCV s0, s1, s2, s3, s4, s5;
+    private Barracks brax;
 
     public MainClass() {
+        cCentre = new CommandCentre(700, 350);
+        cCentre.addHP(2500);
+        brax = new Barracks(800, 600);
+        brax.addHP(2500);
+        s0 = new SCV(1150, 650);
+        s1 = new SCV(1150, 750);
+        s2 = new SCV(1150, 850);
+        s3 = new SCV(1250, 650);
+        s4 = new SCV(1250, 750);
+        s5 = new SCV(1250, 850);
         eRax.setEnemy();
-        focusables.add(new Barracks(800, 600));
-        focusables.add(eRax);
-        focusables.add(new CommandCentre(700, 350));
+        //focusables.add(eRax);
+        //focusables.get(focusables.size() - 1).addHP(999);
+        focusables.add(cCentre);
         focusables.add(new Mineral(1200, 225));
         focusables.add(new Mineral(1270, 200));
         focusables.add(new Mineral(1320, 250));
         focusables.add(new Vespene(1380, 550));
         focusables.add(new Vespene(1470, 500));
         focusables.add(new Vespene(1525, 570));
-        focusables.add(new SCV(1150, 650));
-        focusables.add(new SCV(1150, 750));
-        focusables.add(new SCV(1150, 850));
-        focusables.add(new SCV(1250, 650));
-        focusables.add(new SCV(1250, 750));
-        focusables.add(new SCV(1250, 850));
-        focusables.add(new SovietConscript(1450, 350));
-        focusables.get(focusables.size() - 1).setEnemy();
-        focusables.get(focusables.size() - 1).removeHP(10);
-        focusables.add(new SovietConscript(1450, 350));
-        focusables.get(focusables.size() - 1).setEnemy();
-        focusables.get(focusables.size() - 1).removeHP(10);
-        focusables.add(new SovietConscript(1450, 350));
-        focusables.get(focusables.size() - 1).setEnemy();
-        focusables.get(focusables.size() - 1).removeHP(10);
-        focusables.add(new SovietConscript(1450, 350));
-        focusables.get(focusables.size() - 1).setEnemy();
-        focusables.get(focusables.size() - 1).removeHP(10);
-        focusables.add(new SovietConscript(1450, 350));
-        focusables.get(focusables.size() - 1).setEnemy();
-        focusables.get(focusables.size() - 1).removeHP(10);
-        focusables.add(new SovietConscript(1450, 350));
-        focusables.get(focusables.size() - 1).setEnemy();
-        focusables.get(focusables.size() - 1).removeHP(10);
-        focusables.add(new SovietConscript(1450, 350));
-        focusables.get(focusables.size() - 1).setEnemy();
-        focusables.get(focusables.size() - 1).removeHP(10);
-        focusables.add(new SovietConscript(1450, 350));
-        focusables.get(focusables.size() - 1).setEnemy();
-        focusables.get(focusables.size() - 1).removeHP(10);
+        focusables.add(s0);
+        focusables.add(s1);
+        focusables.add(s2);
+        focusables.add(s3);
+        focusables.add(s4);
+        focusables.add(s5);
+        focusables.add(brax);
 
         this.setSize(SCREENWIDTH, SCREENHEIGHT);
         this.setVisible(true);
@@ -161,17 +154,198 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
 
     }
 
+    public void tutorialU(double t) {
+        switch (tStage) {
+            case 0:
+                if (gameFocus != null) {
+                    if (((Formation) (gameFocus)).getUnit(0).equals(s0)) {
+                        tStage++;
+                    }
+                }
+                break;
+            case 1:
+                if (s0.getObjectWorkingOn() != null) {
+                    if (s0.getObjectWorkingOn().resourceType().equals("Mineral")) {
+                        tStage++;
+                    }
+                }
+                break;
+            case 2:
+                if (s0.getObjectWorkingOn() != null && s1.getObjectWorkingOn() != null && s2.getObjectWorkingOn() != null && s3.getObjectWorkingOn() != null && s4.getObjectWorkingOn() != null && s5.getObjectWorkingOn() != null) {
+                    if (s0.getObjectWorkingOn().resourceType().equals("Mineral") && s1.getObjectWorkingOn().resourceType().equals("Mineral") && s2.getObjectWorkingOn().resourceType().equals("Mineral") && s3.getObjectWorkingOn().resourceType().equals("Mineral") && s4.getObjectWorkingOn().resourceType().equals("Mineral") && s5.getObjectWorkingOn().resourceType().equals("Mineral")) {
+                        tStage++;
+                    }
+                }
+                break;
+            case 3:
+                if (numMinerals >= 150) {
+                    tStage++;
+                }
+                break;
+            case 4:
+                if (gameFocus != null) {
+                    if (gameFocus == brax && focusables.size() >= 15) {
+                        if (((Unit) (focusables.get(focusables.size() - 1))).getUnitType().equals("SCV")) {
+                            tStage++;
+                        }
+                    }
+                }
+                break;
+            case 5:
+                if (((SCV) (focusables.get(focusables.size() - 1))).getObjectWorkingOn() != null) {
+                    if (((SCV) (focusables.get(focusables.size() - 1))).getObjectWorkingOn().resourceType().equals("Vespene")) {
+                        tStage++;
+                    }
+                }
+                break;
+            case 6:
+                if (gameFocus != null) {
+                    if (gameFocus == brax && focusables.size() >= 16) {
+                        if (((Unit) (focusables.get(focusables.size() - 1))).getUnitType().equals("Soviet")) {
+                            tStage++;
+                        }
+                    }
+                }
+                break;
+            case 7:
+                if (curUnits >= 10) {
+                    tStage++;
+                }
+                break;
+            case 8:
+                if (gameFocus != null) {
+                    if (gameFocus == cCentre) {
+                        tStage++;
+                    }
+                }
+                break;
+            case 9:
+                if (numMaxUnits >= 20) {
+                    tStage++;
+                }
+                break;
+            case 10:
+                for (int i = 0; i < focusables.size(); i++) {
+                    if (focusables.get(i).ally && focusables.get(i).isUnit()) {
+                        if (((Unit) (focusables.get(i))).getUnitType().equals("SCV")) {
+                            if (((SCV) (focusables.get(i))).getObjectWorkingOn() != null) {
+                                if (((SCV) (focusables.get(i))).getObjectWorkingOn().resourceType().equals("SupplyDepot")) {
+                                    tStage++;
+                                }
+                            }
+                        }
+                    }
+                }
+                break;
+            case 11:
+                int pSoldiers = 0;
+                for (int i = 0; i < focusables.size(); i++) {
+                    if (focusables.get(i).ally && focusables.get(i).isUnit()) {
+                        if (((Unit) (focusables.get(i))).getUnitType().equals("Soviet")) {
+                            pSoldiers++;
+                        }
+                    }
+                }
+                if (pSoldiers >= 5) {
+                    tStage++;
+                }
+                break;
+            case 12:
+                timePassed += t;
+                if (timePassed > 100000) {
+                    tStage++;
+                    timePassed = 0;
+                }
+                break;
+            default:
+                timePassed += t;
+                if (timePassed > 950000) {
+                    tStage++;
+                    timePassed = 0;
+                    SovietConscript sov;
+                    if (tStage % 2 == 1) {
+                        for (int i = 0; i < Math.round(7.55 * Math.pow(1.27, ((double) tStage - 13.72)) - 3.8); i++) {
+                            sov = new SovietConscript(Math.random() * 500 + 100, -50);
+                            sov.setEnemy();
+                            sov.setFocusPoint((int) cCentre.getXPos(), (int) cCentre.getYPos());
+                            focusables.add(sov);
+                        }
+                    } else {
+                        for (int i = 0; i < Math.round(7.55 * Math.pow(1.27, ((double) tStage - 13.72)) - 3.8); i++) {
+                            sov = new SovietConscript(Math.random() * 500 + 100, SCREENHEIGHT + 50);
+                            sov.setEnemy();
+                            sov.setFocusPoint((int) cCentre.getXPos(), (int) cCentre.getYPos());
+                            focusables.add(sov);
+                        }
+                    }
+                }
+                break;
+        }
+    }
+
+    public void tutorialG(Graphics g) {
+        switch (tStage) {
+            case 0:
+                g.drawString("Press the left-click on the top-left SCV", 500, 55);
+                break;
+            case 1:
+                g.drawString("Great! SCVs are your workers, they mine Minerals and Vespene Gas in order to build things. Why dont you right click on the minerals to get the SCV to work", 300, 55);
+                break;
+            case 2:
+                g.drawString("Good! The SCV mines you minerals now. How about we speed things up by getting all of the SCVs to mine minerals. Left-click and drag to select all the SCVs then right click on the minerals", 50, 55);
+                break;
+            case 3:
+                g.drawString("Nice! Now lets wait until we have 150 minerals", 400, 55);
+                break;
+            case 4:
+                g.drawString("Ok, now left-click on your barracks. This will let you buy units. Then click on the SCV icon in the bottom right", 400, 55);
+                break;
+            case 5:
+                g.drawString("Now get that SCV to mine the Vespene gas, the same way you got the other SCVs to mine minerals", 400, 55);
+                break;
+            case 6:
+                g.drawString("Now save up until you have 250 Minerals and 25 Vespene gas, and then buy the Soldier from the barracks", 400, 55);
+                break;
+            case 7:
+                g.drawString("Soldiers can attack enemies and enemy structures. It is important to have enough military power to defend yourself from enemies. Build two more soldiers", 400, 55);
+                break;
+            case 8:
+                g.drawString("However, we cant keep building units continuously, we have a max unit cap. Click on the Command centre to learn more", 400, 55);
+                break;
+            case 9:
+                g.drawString("In the command centre we can build Supply Depots. Supply Depots increase our max unit cap by 10. Click on the Supply Depot icon, then right click somewhere on the map to begin construction", 50, 55);
+                break;
+            case 10:
+                g.drawString("Buildings dont build themselves! Select an SCV and make it construct the Supply Depot by right clicking", 400, 55);
+                break;
+            case 11:
+                g.drawString("Thats all there is to it! Construct an army of 5 soldiers and prepare to defend your base! If your command centre is destroyed you lose the game!", 300, 55);
+                break;
+            case 12:
+                g.drawString("Nice work! Now that you have mastered the basics, enemies will continually spawn every 60 seconds, survive as long as you can! Good Luck!", 350, 55);
+                g.drawString("Remember that your soldiers automatically do damage if they are within range of an enemy!", 475, 80);
+                break;
+            default:
+                g.drawString("Next Wave in " + Math.round(95.0 - (timePassed / 10000.0)) + " Seconds", 450, 55);
+                break;
+        }
+    }
+
     public void update(double pTimeElapsed) {
-        if(eRax.HP>0){
+        tutorialU(pTimeElapsed);
+        /*if(eRax.HP>0){
         eSpawnTime-=pTimeElapsed;
         if(eSpawnTime<=0){
             eSpawnTime = 25000.0f;
             eRax.spawnEUnit();
             }
-        }
+        }*/
         if (shouldMoveUnits) {
             shouldMoveUnits = false;
             formUnits.moveToLocation(movePoint);
+        }
+        if (cCentre.getHP() <= 0) {
+            numCC--;
         }
         for (int j = focusables.size() - 1; j > 0; j--) {
             if (focusables.get(j).getHP() <= 0) {
@@ -212,7 +386,14 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
             g.fillRect(0, 0, SCREENWIDTH, SCREENHEIGHT);
             gameMap.draw(g);
             for (int i = 0; i < focusables.size(); i++) {
-                focusables.get(i).draw(g);
+                if (!focusables.get(i).isUnit()) {
+                    focusables.get(i).draw(g);
+                }
+            }
+            for (int i = 0; i < focusables.size(); i++) {
+                if (focusables.get(i).isUnit()) {
+                    focusables.get(i).draw(g);
+                }
             }
             if (gameFocus != null) {
                 gameFocus.drawGUI(g);
@@ -239,10 +420,12 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
                     curUnits += ((Unit) focusables.get(i)).getUnitPoints();
                 }
             }
-            g.drawString("Max Units: " + curUnits + "/" + numMaxUnits, 930, 50);
+            g.drawString("Max Units: " + curUnits + "/" + numMaxUnits, 930, 30);
+            tutorialG(g);
         } else {
             g.drawImage(Controls, 0, 0, null);
         }
+
     }
 
     public void mouse1Press(MouseEvent e) {

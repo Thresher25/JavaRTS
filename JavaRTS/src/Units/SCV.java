@@ -80,7 +80,11 @@ public class SCV extends Unit {
     public void setObjectWorkingOn(Workable obj) {
         objectWorkingOn = obj;
     }
-    
+
+    public Workable getObjectWorkingOn() {
+        return objectWorkingOn;
+    }
+
     @Override
     public void update(double time) {
         moveToFocus();

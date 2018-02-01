@@ -17,7 +17,7 @@ public class SovietConscript extends Unit {
 
     public SovietConscript(double x, double y) {
         super(x, y);
-        attackRadius = 625;
+        attackRadius = 1600;
         dmg = 5.0;
         HP = 100;
         int[] xPoints = {-10, 11, 11, -10};
@@ -153,15 +153,16 @@ public class SovietConscript extends Unit {
         if (HP != 100) {
             g.setColor(new Color(1.0f, 0.0f, 0.0f));
             if (HP > 25) {
-                g.setColor(new Color(0.75f, 0.25f, 0.0f));
+                g.setColor(new Color(1.0f, 1.0f, 0.0f));
             }
             if (HP > 50) {
-                g.setColor(new Color(0.25f, 0.5f, 0.0f));
+                g.setColor(new Color(0.64f, 1.0f, 0.0f));
             }
             if (HP > 75) {
-                g.setColor(new Color(0.1f, 0.8f, 0.0f));
+                g.setColor(new Color(0.5f, 1.0f, 0.0f));
             }
-            g.fillRect((int) xPos - image[curImageX][curImageY].getWidth() / 2, (int) yPos - image[curImageX][curImageY].getHeight() / 2 - 5, image[curImageX][curImageY].getWidth() * (int) Math.round(HP / 100.0), 4);
+            g.drawRect((int) xPos - 11, (int) yPos - 16 - 8, 22, 5);
+            g.fillRect((int) xPos - 11, (int) yPos - 16 - 7, (int) (22.0 * ((double) HP / 100.0)), 4);
         }
     }
 

@@ -47,15 +47,6 @@ public class CommandCentre extends Structure {
     @Override
     public void update(double time) {
         super.update(time);
-//        timePassed += time;
-//        if (timePassed > (2.25 / 1 * 1000)) {
-//            if (curImage >= 5) {
-//                curImage = 0;
-//            } else {
-//                curImage++;
-//            }
-//            timePassed = 0;
-//        }
 
     }
 
@@ -84,7 +75,9 @@ public class CommandCentre extends Structure {
             }
         } else {
             if (new Rectangle(85, 925, 100, 100).contains(e.getPoint())) {
-                MainClass.placingStruct = true;
+                if (MainClass.numMinerals >= 300) {
+                    MainClass.placingStruct = true;
+                }
                 MainClass.passedBackInput = false;
             } else {
                 MainClass.passedBackInput = true;
