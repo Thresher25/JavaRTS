@@ -332,7 +332,14 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
     }
 
     public void update(double pTimeElapsed) {
-        tutorialU(pTimeElapsed);
+        if (numCC <= 0) {
+            timePassed += pTimeElapsed;
+            if (timePassed > 50000) {
+                quit = true;
+            }
+        } else {
+            tutorialU(pTimeElapsed);
+
         /*if(eRax.HP>0){
         eSpawnTime-=pTimeElapsed;
         if(eSpawnTime<=0){
@@ -340,29 +347,34 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
             eRax.spawnEUnit();
             }
         }*/
-        if (shouldMoveUnits) {
-            shouldMoveUnits = false;
-            formUnits.moveToLocation(movePoint);
-        }
-        if (cCentre.getHP() <= 0) {
-            numCC--;
-        }
-        for (int j = focusables.size() - 1; j > 0; j--) {
-            if (focusables.get(j).getHP() <= 0) {
-                focusables.remove(focusables.get(j));
+            if (shouldMoveUnits) {
+                shouldMoveUnits = false;
+                formUnits.moveToLocation(movePoint);
             }
-        }
-        for(int i=0;i<focusables.size();i++){
-            focusables.get(i).update(pTimeElapsed);
-            if (focusables.get(i).isUnit()) {
-                Unit u = (Unit) focusables.get(i);
+            if (cCentre.getHP() <= 0) {
+                numCC = 0;
+                if (numCC <= 0) {
+                    timePassed = 0;
+                }
+            }
+            for (int j = focusables.size() - 1; j > 0; j--) {
+                if (focusables.get(j).getHP() <= 0) {
+                    focusables.remove(focusables.get(j));
+                }
+            }
+            for (int i = 0; i < focusables.size(); i++) {
+                focusables.get(i).update(pTimeElapsed);
+                if (focusables.get(i).isUnit()) {
+                    Unit u = (Unit) focusables.get(i);
 
-                for (int j = 0; j < focusables.size(); j++) {
-                    if (((focusables.get(j).getXPos() - u.getXPos()) * (focusables.get(j).getXPos() - u.getXPos()) + (focusables.get(j).getYPos() - u.getYPos()) * (focusables.get(j).getYPos() - u.getYPos())) <= (u).getAttackRadius() && focusables.get(j).ally != u.ally) {
-                        u.attack(focusables.get(j), pTimeElapsed);
+                    for (int j = 0; j < focusables.size(); j++) {
+                        if (((focusables.get(j).getXPos() - u.getXPos()) * (focusables.get(j).getXPos() - u.getXPos()) + (focusables.get(j).getYPos() - u.getYPos()) * (focusables.get(j).getYPos() - u.getYPos())) <= (u).getAttackRadius() && focusables.get(j).ally != u.ally) {
+                            u.attack(focusables.get(j), pTimeElapsed);
+                        }
                     }
                 }
             }
+
         }
 
         cursorFrameChange-=pTimeElapsed;
@@ -421,7 +433,13 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
                 }
             }
             g.drawString("Max Units: " + curUnits + "/" + numMaxUnits, 930, 30);
-            tutorialG(g);
+
+            if (numCC <= 0) {
+                g.setFont(new Font("", 0, 250));
+                g.drawString("YOU LOST", 500, 400);
+            } else {
+                tutorialG(g);
+            }
         } else {
             g.drawImage(Controls, 0, 0, null);
         }
