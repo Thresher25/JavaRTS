@@ -52,7 +52,7 @@ public class MainClass extends JPanel implements KeyListener, MouseListener {
     BufferedImage mineralIcon, Controls, VespeneIcon;
     private boolean gameStarted = false;
     private float eSpawnTime = 3000.0f;
-    private int tStage = 0;
+    public static int tStage = 0;
     private double timePassed = 0;
     private int numCC = 1;
     private CommandCentre cCentre;

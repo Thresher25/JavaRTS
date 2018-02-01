@@ -75,7 +75,7 @@ public class CommandCentre extends Structure {
             }
         } else {
             if (new Rectangle(85, 925, 100, 100).contains(e.getPoint())) {
-                if (MainClass.numMinerals >= 300) {
+                if (MainClass.numMinerals >= 300 && (MainClass.tStage == 9 || MainClass.tStage >= 11)) {
                     MainClass.placingStruct = true;
                 }
                 MainClass.passedBackInput = false;
